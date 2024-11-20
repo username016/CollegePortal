@@ -1,13 +1,15 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollegePortal.Operations", "CollegePortal.Operations\CollegePortal.Operations.csproj", "{A4F8C5C6-DCD6-456F-9122-D25AC61DE1B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollegePortal.Operations", "CollegePortal.Operations\CollegePortal.Operations.csproj", "{A4F8C5C6-DCD6-456F-9122-D25AC61DE1B6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B4BFFE50-E89C-4C26-A425-37B21C36C8DF}"
 	ProjectSection(SolutionItems) = preProject
-		readme.txt = readme.txt
 		MeetingLogs.txt = MeetingLogs.txt
+		GuideForDevs.txt = GuideForDevs.txt
+		readme.txt = readme.txt
 	EndProjectSection
 EndProject
 Global
