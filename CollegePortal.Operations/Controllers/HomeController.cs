@@ -29,4 +29,4 @@ namespace CollegePortal.Operations.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
-}
+} //hi can you read this  yes i can
