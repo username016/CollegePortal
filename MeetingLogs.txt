@@ -1,2 +1,3 @@
 ﻿
 Tuesday November 19th -> Initial meeting attended by Ayat, Mohammed and Ding, Git issues dealt with and initial test commits made.
+Wednesday November 20th -> Added Initial Files for the views and made a rough diagram on what we're going to implement. - Mohammad Raja
