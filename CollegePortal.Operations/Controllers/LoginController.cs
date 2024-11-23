@@ -23,7 +23,7 @@ namespace CollegePortal.Operations.Controllers
                 if (model.Email == "test@example.com" && model.Password == "password123")
                 {
                     // Store user email in session
-                    Session["UserEmail"] = model.Email;
+              //      Session["UserEmail"] = model.Email;
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -36,7 +36,7 @@ namespace CollegePortal.Operations.Controllers
         // GET: Logout
         public ActionResult Logout()
         {
-            Session.Clear(); // Clear session data
+          //  Session.Clear(); // Clear session data
             return RedirectToAction("Login");
         }
     }
