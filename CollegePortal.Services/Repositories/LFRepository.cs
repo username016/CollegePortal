@@ -1,11 +1,73 @@
-﻿using System;
+﻿using CollegePortal.Entities.Models;
+using CollegePortal.Services.DataAccessLayer;
+using System;
 namespace CollegePortal.Services.Repositories
 {
-	public class LFRepository
+	public class LFRepository : ILFRepository
 	{
-		public LFRepository()
-		{
-		}
-	}
+        private readonly DbContextStudent _context;
+
+        public LFRepository(DbContextStudent context)
+        {
+            _context = context;
+        }
+
+        // Get all lost and found posts
+        public IEnumerable<LostAndFound> GetAllLostFound()
+        {
+            return _context.lostAndFound.ToList();
+        }
+
+        // Get a specific lost and found post by its ID
+        public LostAndFound GetLostFoundById(int postId)
+        {
+            var post = _context.lostAndFound.Find(postId);
+            if (post == null)
+                throw new Exception($"Lost and Found post with ID {postId} not found.");
+            return post;
+        }
+
+        // Create a new lost and found post
+        public LostAndFound CreateLostFound(int studentId, string itemDescription, DateTime foundDate, string location)
+        {
+            var newPost = new LostAndFound
+            {
+                studentId = studentId,
+                itemDescription = itemDescription,
+                foundDate = foundDate,
+                location = location
+            };
+
+            _context.lostAndFound.Add(newPost);
+            _context.SaveChanges();
+            return newPost;
+        }
+
+        // Update an existing lost and found post
+        public LostAndFound UpdateLostFound(int postId, string itemDescription, DateTime foundDate, string location)
+        {
+            var post = _context.lostAndFound.Find(postId);
+            if (post == null)
+                throw new Exception($"Lost and Found post with ID {postId} not found.");
+
+            post.itemDescription = itemDescription;
+            post.foundDate = foundDate;
+            post.location = location;
+
+            _context.SaveChanges();
+            return post;
+        }
+
+        // Delete a lost and found post
+        public void DeleteLostFound(int postId)
+        {
+            var post = _context.lostAndFound.Find(postId);
+            if (post == null)
+                throw new Exception($"Lost and Found post with ID {postId} not found.");
+
+            _context.lostAndFound.Remove(post);
+            _context.SaveChanges();
+        }
+    }
 }
 
