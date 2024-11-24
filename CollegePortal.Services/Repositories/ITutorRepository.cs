@@ -1,11 +1,10 @@
 ﻿using System;
 namespace CollegePortal.Services.Repositories
 {
-	public class ITutorRepository
+	public interface ITutorRepository
 	{
-		public ITutorRepository()
-		{
-		}
+
+
 	}
 }
 
