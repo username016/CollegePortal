@@ -16,13 +16,13 @@ namespace CollegePortal.Services.DataAccessLayer
 
         }
 
-        public DbSet<Student> student { get; set; }
-        public DbSet<GymRoomBookings> gymRoomBookings { get; set; }
-        public DbSet<LostAndFound> lostAndFound { get; set; }
+        public DbSet<Student> Student { get; set; }
+        public DbSet<GymRoomBookings> GymRoomBookings { get; set; }
+        public DbSet<LostAndFound> LostAndFound { get; set; }
 
-        public DbSet<StudyRoomBookings> studyRoomBookings { get; set; }
+        public DbSet<StudyRoomBookings> StudyRoomBookings { get; set; }
 
-        public DbSet<TutorBookings> tutorBookings { get; set; }
+        public DbSet<TutorBookings> TutorBookings { get; set; }
 
     }
 }
