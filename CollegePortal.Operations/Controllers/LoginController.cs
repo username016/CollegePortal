@@ -1,4 +1,6 @@
 ﻿// Controllers/AccountController.cs
+
+/*
 using CollegePortal.Operation.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,3 +43,4 @@ namespace CollegePortal.Operations.Controllers
         }
     }
 }
+*/

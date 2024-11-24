@@ -16,18 +16,23 @@ namespace CollegePortal.Controllers
         // GET: List all lost-and-found items
         public IActionResult Index()
         {
-            var items = _lostAndFoundRepository.ListAllItems();
+            var items = _lostAndFoundRepository.GetAllLostFound();
             return View(items);
         }
 
         // GET: Details of a specific lost-and-found item
         public IActionResult Details(int id)
         {
-            var item = _lostAndFoundRepository.GetItemById(id);
-            if (item == null)
-                return NotFound();
-
-            return View(item);
+            try
+            {
+                var item = _lostAndFoundRepository.GetLostFoundById(id);
+                return View(item);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Index");
+            }
         }
 
         // GET: Create a new lost-and-found post
@@ -39,63 +44,73 @@ namespace CollegePortal.Controllers
         // POST: Create a new lost-and-found post
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(LostAndFound lostAndFound)
+        public IActionResult Create(int studentId, string itemDescription, DateTime foundDate, string location)
         {
             if (!ModelState.IsValid)
-                return View(lostAndFound);
+                return View();
 
             try
             {
-                _lostAndFoundRepository.AddItem(lostAndFound);
+                _lostAndFoundRepository.CreateLostFound(studentId, itemDescription, foundDate, location);
                 TempData["SuccessMessage"] = "Lost-and-found item added successfully!";
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
-                return View(lostAndFound);
+                return View();
             }
         }
 
         // GET: Edit a lost-and-found item
         public IActionResult Edit(int id)
         {
-            var item = _lostAndFoundRepository.GetItemById(id);
-            if (item == null)
-                return NotFound();
-
-            return View(item);
+            try
+            {
+                var item = _lostAndFoundRepository.GetLostAndFoundById(id);
+                return View(item);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Index");
+            }
         }
 
         // POST: Update a lost-and-found item
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, LostAndFound lostAndFound)
+        public IActionResult Edit(int id, string itemDescription, DateTime foundDate, string location)
         {
             if (!ModelState.IsValid)
-                return View(lostAndFound);
+                return View();
 
             try
             {
-                _lostAndFoundRepository.UpdateItem(id, lostAndFound);
+                _lostAndFoundRepository.UpdateLostFound(id, itemDescription, foundDate, location);
                 TempData["SuccessMessage"] = "Lost-and-found item updated successfully!";
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
-                return View(lostAndFound);
+                return View();
             }
         }
 
         // GET: Delete a lost-and-found item (confirmation)
         public IActionResult Delete(int id)
         {
-            var item = _lostAndFoundRepository.GetItemById(id);
-            if (item == null)
-                return NotFound();
-
-            return View(item);
+            try
+            {
+                var item = _lostAndFoundRepository.GetLostFoundById(id);
+                return View(item);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("Index");
+            }
         }
 
         // POST: Delete a lost-and-found item
@@ -105,7 +120,7 @@ namespace CollegePortal.Controllers
         {
             try
             {
-                _lostAndFoundRepository.DeleteItem(id);
+                _lostAndFoundRepository.DeleteLostFound(id);
                 TempData["SuccessMessage"] = "Lost-and-found item deleted successfully!";
                 return RedirectToAction("Index");
             }

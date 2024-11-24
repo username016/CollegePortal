@@ -19,6 +19,7 @@ namespace CollegePortal.Services.Repositories
 
         // Delete a lost and found post
         void DeleteLostFound(int postId);
+        string? GetLostAndFoundById(int id);
     }
 }
 

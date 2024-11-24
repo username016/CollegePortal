@@ -68,6 +68,11 @@ namespace CollegePortal.Services.Repositories
             _context.LostAndFound.Remove(post);
             _context.SaveChanges();
         }
+
+        public string? GetLostAndFoundById(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

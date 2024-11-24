@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+/*
+using System.ComponentModel.DataAnnotations;
 namespace CollegePortal.Operation.Models
 {
     public class LoginViewModel
     {
         [Required]
         [Display(Name = "Email")]
-        [EmailAddress]
         public string Email { get; set; }
 
         [Required]
@@ -14,3 +15,4 @@ namespace CollegePortal.Operation.Models
         public string Password { get; set; }
     }
 }
+*/
