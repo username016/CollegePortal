@@ -8,17 +8,17 @@ namespace CollegePortal.Entities.Models
 {
     public class GymRoomBookings
     {
-        public int bookingId { get; set; }
+        public int BookingId { get; set; }
 
-        public int studentId { get; set; }
+        public int StudentId { get; set; }
 
-        public int gymRoomID { get; set; }
+        public int GymRoomId { get; set; }
 
-        public DateTime dateTime { get; set; }
+        public DateTime DateTime { get; set; }
 
-        public DateTime startTime { get; set; }
+        public DateTime StartTime { get; set; }
 
-        public DateTime endTime { get; set; }
+        public DateTime EndTime { get; set; }
 
 
     }
