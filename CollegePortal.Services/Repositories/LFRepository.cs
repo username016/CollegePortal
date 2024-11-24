@@ -15,13 +15,13 @@ namespace CollegePortal.Services.Repositories
         // Get all lost and found posts
         public IEnumerable<LostAndFound> GetAllLostFound()
         {
-            return _context.lostAndFound.ToList();
+            return _context.LostAndFound.ToList();
         }
 
         // Get a specific lost and found post by its ID
         public LostAndFound GetLostFoundById(int postId)
         {
-            var post = _context.lostAndFound.Find(postId);
+            var post = _context.LostAndFound.Find(postId);
             if (post == null)
                 throw new Exception($"Lost and Found post with ID {postId} not found.");
             return post;
@@ -38,7 +38,7 @@ namespace CollegePortal.Services.Repositories
                 location = location
             };
 
-            _context.lostAndFound.Add(newPost);
+            _context.LostAndFound.Add(newPost);
             _context.SaveChanges();
             return newPost;
         }
@@ -46,7 +46,7 @@ namespace CollegePortal.Services.Repositories
         // Update an existing lost and found post
         public LostAndFound UpdateLostFound(int postId, string itemDescription, DateTime foundDate, string location)
         {
-            var post = _context.lostAndFound.Find(postId);
+            var post = _context.LostAndFound.Find(postId);
             if (post == null)
                 throw new Exception($"Lost and Found post with ID {postId} not found.");
 
@@ -61,11 +61,11 @@ namespace CollegePortal.Services.Repositories
         // Delete a lost and found post
         public void DeleteLostFound(int postId)
         {
-            var post = _context.lostAndFound.Find(postId);
+            var post = _context.LostAndFound.Find(postId);
             if (post == null)
                 throw new Exception($"Lost and Found post with ID {postId} not found.");
 
-            _context.lostAndFound.Remove(post);
+            _context.LostAndFound.Remove(post);
             _context.SaveChanges();
         }
     }

@@ -16,19 +16,19 @@ namespace CollegePortal.Services.Repositories
         // Get all tutor bookings
         public IEnumerable<TutorBookings> GetAllTutorBookings()
         {
-            return _context.tutorBookings.ToList();
+            return _context.TutorBookings.ToList();
         }
 
         // Get bookings for a specific tutor
         public IEnumerable<TutorBookings> GetTutorBookings(int tutorId)
         {
-            return _context.tutorBookings.Where(t => t.tutorId == tutorId).ToList();
+            return _context.TutorBookings.Where(t => t.tutorId == tutorId).ToList();
         }
 
         // Check if a booking conflicts with existing ones
         public bool IsBookingConflict(int tutorId, DateTime startTime, DateTime endTime)
         {
-            return _context.tutorBookings.Any(b =>
+            return _context.TutorBookings.Any(b =>
                 b.tutorId == tutorId &&
                 (startTime < b.endTime && endTime > b.startTime)); // Check for overlaps
         }
@@ -48,7 +48,7 @@ namespace CollegePortal.Services.Repositories
                 dateTime = DateTime.Now // Or set a specific booking date
             };
 
-            _context.tutorBookings.Add(booking);
+            _context.TutorBookings.Add(booking);
             _context.SaveChanges();
             return booking;
         }
@@ -56,7 +56,7 @@ namespace CollegePortal.Services.Repositories
         // Update an existing booking
         public TutorBookings UpdateTutorBooking(int bookingId, DateTime startTime, DateTime endTime)
         {
-            var booking = _context.tutorBookings.Find(bookingId);
+            var booking = _context.TutorBookings.Find(bookingId);
             if (booking == null)
                 throw new Exception($"Booking with ID {bookingId} not found.");
 
@@ -72,11 +72,11 @@ namespace CollegePortal.Services.Repositories
         // Delete a booking
         public void DeleteTutorBooking(int bookingId)
         {
-            var booking = _context.tutorBookings.Find(bookingId);
+            var booking = _context.TutorBookings.Find(bookingId);
             if (booking == null)
                 throw new Exception($"Booking with ID {bookingId} not found.");
 
-            _context.tutorBookings.Remove(booking);
+            _context.TutorBookings.Remove(booking);
             _context.SaveChanges();
         }
     }
