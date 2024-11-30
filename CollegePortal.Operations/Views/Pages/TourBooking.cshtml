@@ -1,13 +1,13 @@
-﻿@model IEnumerable<CollegePortal.Entities.Models.StudyRoomBookings>
+﻿@model IEnumerable<CollegePortal.Entities.Models.TutorBookings>
 
-<h1>Study Room Bookings</h1>
+<h1>Tutor Bookings</h1>
 
 <table class="table">
     <thead>
         <tr>
             <th>Booking ID</th>
             <th>Student ID</th>
-            <th>Study Room ID</th>
+            <th>Tutor ID</th>
             <th>Start Time</th>
             <th>End Time</th>
             <th>Actions</th>
@@ -19,16 +19,16 @@
             <tr>
                 <td>@booking.bookingId</td>
                 <td>@booking.studentId</td>
-                <td>@booking.studyRoomId</td>
+                <td>@booking.tutorId</td>
                 <td>@booking.startTime</td>
                 <td>@booking.endTime</td>
                 <td>
-                    <a asp-controller="StudyRoom" asp-action="Edit" asp-route-id="@booking.bookingId" class="btn btn-warning">Edit</a>
-                    <a asp-controller="StudyRoom" asp-action="Delete" asp-route-id="@booking.bookingId" class="btn btn-danger">Delete</a>
+                    <a asp-controller="Tutor" asp-action="Edit" asp-route-id="@booking.bookingId" class="btn btn-warning">Edit</a>
+                    <a asp-controller="Tutor" asp-action="Delete" asp-route-id="@booking.bookingId" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-<a asp-controller="StudyRoom" asp-action="Create" class="btn btn-primary">Book a Study Room</a>
+<a asp-controller="Tutor" asp-action="Create" class="btn btn-primary">Book a Tutor Session</a>

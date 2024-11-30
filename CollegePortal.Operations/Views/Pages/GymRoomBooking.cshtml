@@ -1,0 +1,34 @@
+﻿@model IEnumerable<CollegePortal.Entities.Models.GymRoomBookings>
+
+<h1>Gym Room Bookings</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Booking ID</th>
+            <th>Student ID</th>
+            <th>Gym Room ID</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var booking in Model)
+        {
+            <tr>
+                <td>@booking.BookingId</td>
+                <td>@booking.StudentId</td>
+                <td>@booking.GymRoomId</td>
+                <td>@booking.StartTime</td>
+                <td>@booking.EndTime</td>
+                <td>
+                    <a asp-controller="GymRoom" asp-action="Edit" asp-route-id="@booking.BookingId" class="btn btn-warning">Edit</a>
+                    <a asp-controller="GymRoom" asp-action="Delete" asp-route-id="@booking.BookingId" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-controller="GymRoom" asp-action="Create" class="btn btn-primary">Book a Gym Room</a>

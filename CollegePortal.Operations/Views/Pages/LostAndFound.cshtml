@@ -1,0 +1,34 @@
+﻿@model IEnumerable<CollegePortal.Entities.Models.LostAndFound>
+
+    <h1>Lost and Found</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Post ID</th>
+                <th>Student ID</th>
+                <th>Item Description</th>
+                <th>Found Date</th>
+                <th>Location</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.postId</td>
+                    <td>@item.studentId</td>
+                    <td>@item.itemDescription</td>
+                    <td>@item.foundDate.ToShortDateString()</td>
+                    <td>@item.location</td>
+                    <td>
+                        <a asp-controller="LostAndFound" asp-action="Edit" asp-route-id="@item.postId" class="btn btn-warning">Edit</a>
+                        <a asp-controller="LostAndFound" asp-action="Delete" asp-route-id="@item.postId" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a asp-controller="LostAndFound" asp-action="Create" class="btn btn-primary">Add New Item</a>
