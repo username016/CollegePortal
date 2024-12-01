@@ -1,10 +1,13 @@
 ﻿using CollegePortal.Entities.Models;
 using CollegePortal.Services.DataAccessLayer;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace CollegePortal.Services.Repositories
 {
-	public class LFRepository : ILFRepository
-	{
+    public class LFRepository : ILFRepository
+    {
         private readonly DbContextStudent _context;
 
         public LFRepository(DbContextStudent context)
@@ -48,12 +51,25 @@ namespace CollegePortal.Services.Repositories
         {
             var post = _context.LostAndFound.Find(postId);
             if (post == null)
-                throw new Exception($"Lost and Found post with ID {postId} is found.");
+                throw new Exception($"Lost and Found post with ID {postId} not found.");
 
             _context.LostAndFound.Remove(post);
             _context.SaveChanges();
         }
 
+        // Get all lost and found posts
+        public IEnumerable<LostAndFound> GetAllLostFound()
+        {
+            return _context.LostAndFound.ToList();
+        }
+
+        // Get a lost and found post by ID
+        public LostAndFound GetLostFoundById(int postId)
+        {
+            return _context.LostAndFound.Find(postId);
+        }
+
+        // Get all lost and found posts for a specific student
         public IEnumerable<LostAndFound> GetLostAndFoundByStudentId(int studentId)
         {
             return _context.LostAndFound

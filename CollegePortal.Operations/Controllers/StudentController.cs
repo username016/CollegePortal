@@ -118,7 +118,7 @@ namespace CollegePortal.Api.Controllers
     // DTO for student login request
     public class StudentLoginRequest
     {
-        public string Name { get; set; }
-        public string Password { get; set; }
+        public required string Name { get; set; }
+        public required string Password { get; set; }
     }
 }

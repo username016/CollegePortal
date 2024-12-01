@@ -16,7 +16,7 @@ namespace CollegePortal.Controllers
         // GET: List all gym rooms
         public IActionResult Index()
         {
-            var gymRooms = _gymRepository.ListAllGymRooms();
+            var gymRooms = _gymRepository.ListAvailableGymRooms(DateTime.MinValue, DateTime.MaxValue);
             return View(gymRooms);
         }
 

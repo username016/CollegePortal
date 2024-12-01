@@ -18,11 +18,11 @@ namespace CollegePortal.Api.Controllers
 
         // Get all tutor bookings
         [HttpGet("GetAllTutorBookings")]
-        public IActionResult GetAllTutorBookings()
+        public IActionResult GetAllTutorBookings(int studentId, DateTime startTime, DateTime endTime)
         {
             try
             {
-                var bookings = _tutorRepository.GetAllTutorBookings();
+                var bookings = _tutorRepository.GetAllTutorBookings(studentId, startTime, endTime);
                 return Ok(bookings);
             }
             catch (Exception ex)
@@ -33,11 +33,11 @@ namespace CollegePortal.Api.Controllers
 
         // Get bookings for a specific tutor
         [HttpGet("GetTutorBookings/{tutorId}")]
-        public IActionResult GetTutorBookings(int tutorId)
+        public IActionResult GetTutorBookings(int tutorId, DateTime startTime, DateTime endTime)
         {
             try
             {
-                var bookings = _tutorRepository.GetTutorBookings(tutorId);
+                var bookings = _tutorRepository.GetTutorBookings(tutorId, startTime, endTime);
                 return Ok(bookings);
             }
             catch (Exception ex)

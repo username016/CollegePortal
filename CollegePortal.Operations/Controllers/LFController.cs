@@ -1,6 +1,7 @@
 ﻿using CollegePortal.Entities.Models;
 using CollegePortal.Services.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace CollegePortal.Controllers
 {
@@ -67,7 +68,7 @@ namespace CollegePortal.Controllers
         {
             try
             {
-                var item = _lostAndFoundRepository.GetLostAndFoundById(id);
+                var item = _lostAndFoundRepository.GetLostFoundById(id);
                 return View(item);
             }
             catch (Exception ex)

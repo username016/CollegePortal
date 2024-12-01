@@ -18,11 +18,11 @@ namespace CollegePortal.Api.Controllers
 
         // Get all study room bookings
         [HttpGet("GetAllStudyRoomBookings")]
-        public IActionResult GetAllStudyRoomBookings()
+        public IActionResult GetAllStudyRoomBookings(DateTime startTime, DateTime endTime)
         {
             try
             {
-                var bookings = _studyRoomRepository.GetAllStudyRoomBookings();
+                var bookings = _studyRoomRepository.GetAllStudyRoomBookings(startTime, endTime);
                 return Ok(bookings);
             }
             catch (Exception ex)
@@ -31,13 +31,13 @@ namespace CollegePortal.Api.Controllers
             }
         }
 
-        // Get bookings for a specific study room
-        [HttpGet("GetStudyRoomBookings/{studyRoomId}")]
-        public IActionResult GetStudyRoomBookings(int studyRoomId)
+        // Get bookings for a specific study room by student ID
+        [HttpGet("GetStudyRoomBookingsByStudent/{studentId}")]
+        public IActionResult GetStudyRoomBookingsByStudent(int studentId)
         {
             try
             {
-                var bookings = _studyRoomRepository.GetStudyRoomBookings(studyRoomId);
+                var bookings = _studyRoomRepository.GetStudyRoomBookingsByStudent(studentId);
                 return Ok(bookings);
             }
             catch (Exception ex)
@@ -53,7 +53,7 @@ namespace CollegePortal.Api.Controllers
             try
             {
                 var booking = _studyRoomRepository.BookStudyRoom(request.StudentId, request.StudyRoomId, request.StartTime, request.EndTime);
-                return CreatedAtAction(nameof(GetStudyRoomBookings), new { studyRoomId = request.StudyRoomId }, booking);
+                return CreatedAtAction(nameof(GetStudyRoomBookingsByStudent), new { studentId = request.StudentId }, booking);
             }
             catch (Exception ex)
             {
@@ -108,3 +108,4 @@ namespace CollegePortal.Api.Controllers
         public DateTime EndTime { get; set; }
     }
 }
+

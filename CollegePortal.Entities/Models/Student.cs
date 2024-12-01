@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CollegePortal.Entities.Models
+﻿namespace CollegePortal.Entities.Models
 {
     public class Student
     {
         public int StudentId { get; set; }
-
-        public string Name { get; set; }
-
-        public string Password { get; set; }
-
+        public required string Name { get; set; }
+        public required string Password { get; set; }
     }
 }
