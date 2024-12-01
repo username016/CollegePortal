@@ -14,5 +14,7 @@ namespace CollegePortal.Services.DataAccessLayer
         public DbSet<LostAndFound> LostAndFound { get; set; }
         public DbSet<StudyRoomBookings> StudyRoomBookings { get; set; }
         public DbSet<TutorBookings> TutorBookings { get; set; }
+
+
     }
 }

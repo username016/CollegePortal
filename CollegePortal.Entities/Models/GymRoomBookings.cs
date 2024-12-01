@@ -11,6 +11,7 @@ namespace CollegePortal.Entities.Models
         public int BookingId { get; set; }
 
         public int StudentId { get; set; }
+        public string StudentName { get; set; }
 
         public int GymRoomId { get; set; }
 

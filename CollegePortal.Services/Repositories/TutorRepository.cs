@@ -14,15 +14,23 @@ namespace CollegePortal.Services.Repositories
         }
 
         // Get all tutor bookings
-        public IEnumerable<TutorBookings> GetAllTutorBookings()
+        public IEnumerable<TutorBookings> GetAllTutorBookings(int studentId, DateTime startTime, DateTime endTime)
         {
-            return _context.TutorBookings.ToList();
+            return _context.TutorBookings
+                .Where(b => b.studentId == studentId &&
+                            b.startTime >= startTime &&
+                            b.endTime <= endTime) // Filter by time range and studentId
+                .ToList();
         }
 
         // Get bookings for a specific tutor
-        public IEnumerable<TutorBookings> GetTutorBookings(int tutorId)
+        public IEnumerable<TutorBookings> GetTutorBookings(int tutorId, DateTime startTime, DateTime endTime)
         {
-            return _context.TutorBookings.Where(t => t.tutorId == tutorId).ToList();
+            return _context.TutorBookings
+         .Where(b => b.tutorId == tutorId &&
+                     b.startTime >= startTime &&
+                     b.endTime <= endTime) // Filter by tutorId and the time window
+         .ToList();
         }
 
         // Check if a booking conflicts with existing ones

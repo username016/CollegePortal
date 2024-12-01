@@ -11,10 +11,10 @@ namespace CollegePortal.Services.Repositories
     {
 
         // Get all study room bookings
-        IEnumerable<StudyRoomBookings> GetAllStudyRoomBookings();
+        public IEnumerable<StudyRoomBookings> GetAllStudyRoomBookings(DateTime startTime, DateTime endTime);
 
-        // Get bookings for a specific study room
-        IEnumerable<StudyRoomBookings> GetStudyRoomBookings(int studyRoomId);
+        // Get bookings for a specific study room by studentID
+       public IEnumerable<StudyRoomBookings> GetStudyRoomBookingsByStudent(int studentId);
 
         // Check if a booking conflicts with existing ones
         bool IsBookingConflict(int studyRoomId, DateTime startTime, DateTime endTime);

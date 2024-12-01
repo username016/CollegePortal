@@ -13,15 +13,19 @@ namespace CollegePortal.Services.Repositories
         }
 
         // Get all study room bookings
-        public IEnumerable<StudyRoomBookings> GetAllStudyRoomBookings()
+        public IEnumerable<StudyRoomBookings> GetAllStudyRoomBookings(DateTime startTime, DateTime endTime)
         {
-            return _context.StudyRoomBookings.ToList();
+            return _context.StudyRoomBookings
+                .Where(b => (startTime < b.endTime && endTime > b.startTime)) // Check for overlap with selected times
+                .ToList();
         }
 
         // Get bookings for a specific study room
-        public IEnumerable<StudyRoomBookings> GetStudyRoomBookings(int studyRoomId)
+        public IEnumerable<StudyRoomBookings> GetStudyRoomBookingsByStudent(int studentId)
         {
-            return _context.StudyRoomBookings.Where(b => b.studyRoomId == studyRoomId).ToList();
+            return _context.StudyRoomBookings
+                .Where(b => b.studentId == studentId)  // Filter by studentId
+                .ToList();
         }
 
         // Check if a booking conflicts with existing ones
@@ -43,8 +47,7 @@ namespace CollegePortal.Services.Repositories
                 studentId = studentId,
                 studyRoomId = studyRoomId,
                 startTime = startTime,
-                endTime = endTime,
-                dateTime = DateTime.Now // Or set a specific booking date
+                endTime = endTime
             };
 
             _context.StudyRoomBookings.Add(booking);

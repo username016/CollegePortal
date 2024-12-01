@@ -18,23 +18,51 @@ namespace CollegePortal.Services.Repositories
         }
 
         // Get all gym rooms
-        public IEnumerable<GymRoomBookings> ListAllGymRooms()
+        // Get available gym rooms for a given time range
+        public IEnumerable<GymRoomBookings> ListAvailableGymRooms(DateTime startTime, DateTime endTime)
         {
-            return _context.GymRoomBookings.ToList();
+            // Query to get rooms that are not booked during the time range
+            var availableRooms = _context.GymRoomBookings
+                .Where(r => !_context.GymRoomBookings
+                    .Any(b => b.GymRoomId == r.GymRoomId &&
+                              ((startTime >= b.StartTime && startTime < b.EndTime) ||
+                               (endTime > b.StartTime && endTime <= b.EndTime) ||
+                               (startTime <= b.StartTime && endTime >= b.EndTime))))
+                .Select(r => new GymRoomBookings
+                {
+                    GymRoomId = r.GymRoomId,
+                    StartTime = startTime,
+                    EndTime = endTime
+                })
+                .ToList();
+
+            return availableRooms;
         }
 
-        // Get bookings for a specific gym room
         public IEnumerable<GymRoomBookings> GetGymRoomBookings(int gymRoomId)
         {
-            return _context.GymRoomBookings.Where(b => b.GymRoomId == gymRoomId).ToList();
-        }
+            var bookings = _context.GymRoomBookings
+                .Where(b => b.GymRoomId == gymRoomId)
+                .Join(_context.Students,
+                    booking => booking.StudentId,
+                    student => student.StudentId,
+                    (booking, student) => new GymRoomBookings
+                    { 
+                        StudentName = student.Name,
+                        GymRoomId = booking.GymRoomId,
+                        StartTime = booking.StartTime,
+                        EndTime = booking.EndTime
+                    })
+                .ToList();
 
-        // Check for conflicts
+            return bookings;
+        }
+        // Check for booking conflicts
         public bool IsBookingConflict(int gymId, DateTime sTime, DateTime eTime)
         {
             return _context.GymRoomBookings.Any(b =>
                 b.GymRoomId == gymId &&
-                ((sTime >= b.StartTime && sTime < b.EndTime) || // Overlaps with an existing booking
+                ((sTime >= b.StartTime && sTime < b.EndTime) ||
                  (eTime > b.StartTime && eTime <= b.EndTime) ||
                  (sTime <= b.StartTime && eTime >= b.EndTime)));
         }
