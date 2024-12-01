@@ -12,21 +12,6 @@ namespace CollegePortal.Services.Repositories
             _context = context;
         }
 
-        // Get all lost and found posts
-        public IEnumerable<LostAndFound> GetAllLostFound()
-        {
-            return _context.LostAndFound.ToList();
-        }
-
-        // Get a specific lost and found post by its ID
-        public LostAndFound GetLostFoundById(int postId)
-        {
-            var post = _context.LostAndFound.Find(postId);
-            if (post == null)
-                throw new Exception($"Lost and Found post with ID {postId} not found.");
-            return post;
-        }
-
         // Create a new lost and found post
         public LostAndFound CreateLostFound(int studentId, string itemDescription, DateTime foundDate, string location)
         {
@@ -63,15 +48,17 @@ namespace CollegePortal.Services.Repositories
         {
             var post = _context.LostAndFound.Find(postId);
             if (post == null)
-                throw new Exception($"Lost and Found post with ID {postId} not found.");
+                throw new Exception($"Lost and Found post with ID {postId} is found.");
 
             _context.LostAndFound.Remove(post);
             _context.SaveChanges();
         }
 
-        public string? GetLostAndFoundById(int id)
+        public IEnumerable<LostAndFound> GetLostAndFoundByStudentId(int studentId)
         {
-            throw new NotImplementedException();
+            return _context.LostAndFound
+                        .Where(post => post.studentId == studentId)
+                        .ToList();
         }
     }
 }

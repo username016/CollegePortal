@@ -4,12 +4,8 @@ namespace CollegePortal.Services.Repositories
 {
 	public interface ILFRepository
 	{
-
-        // Get all lost and found posts
-        IEnumerable<LostAndFound> GetAllLostFound();
-
-        // Get a specific lost and found post by its ID
-        LostAndFound GetLostFoundById(int postId);
+        // Get all lost and found posts for a specific student
+        IEnumerable<LostAndFound> GetLostAndFoundByStudentId(int studentId);
 
         // Create a new lost and found post
         LostAndFound CreateLostFound(int studentId, string itemDescription, DateTime foundDate, string location);
@@ -19,7 +15,6 @@ namespace CollegePortal.Services.Repositories
 
         // Delete a lost and found post
         void DeleteLostFound(int postId);
-        string? GetLostAndFoundById(int id);
     }
 }
 

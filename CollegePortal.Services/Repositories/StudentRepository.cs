@@ -15,17 +15,6 @@ namespace CollegePortal.Services.Repositories
             _context = context;
         }
 
-        // Get all students
-        public IEnumerable<Student> GetAllStudents()
-        {
-            return _context.Students.ToList();
-        }
-
-        // Get a student by ID
-        public Student GetStudentById(int studentId)
-        {
-            return _context.Students.Find(studentId);
-        }
 
         // Add a new student
         public Student AddStudent(Student student)
@@ -33,30 +22,6 @@ namespace CollegePortal.Services.Repositories
             _context.Students.Add(student);
             _context.SaveChanges();
             return student;
-        }
-
-        // Update an existing student
-        public Student UpdateStudent(Student student)
-        {
-            var existingStudent = _context.Students.Find(student.StudentId);
-            if (existingStudent == null)
-                throw new Exception($"Student with ID {student.StudentId} not found.");
-
-            existingStudent.Name = student.Name;
-            existingStudent.Password = student.Password;
-            _context.SaveChanges();
-            return existingStudent;
-        }
-
-        // Delete a student by ID
-        public void DeleteStudent(int studentId)
-        {
-            var student = _context.Students.Find(studentId);
-            if (student == null)
-                throw new Exception($"Student with ID {studentId} not found.");
-
-            _context.Students.Remove(student);
-            _context.SaveChanges();
         }
 
         // Authenticate a student (login)

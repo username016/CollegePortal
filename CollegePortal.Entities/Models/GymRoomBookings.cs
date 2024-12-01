@@ -14,8 +14,6 @@ namespace CollegePortal.Entities.Models
 
         public int GymRoomId { get; set; }
 
-        public DateTime DateTime { get; set; }
-
         public DateTime StartTime { get; set; }
 
         public DateTime EndTime { get; set; }
