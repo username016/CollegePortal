@@ -1,10 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using CollegePortal.Entities.Models;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace CollegePortal.Services.DataAccessLayer
 {
     public class DbContextStudent : DbContext
     {
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
+        }
         public DbContextStudent(DbContextOptions<DbContextStudent> options) : base(options)
         {
         }
