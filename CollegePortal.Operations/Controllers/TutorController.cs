@@ -12,7 +12,6 @@ namespace CollegePortal.Controllers
         {
             _tutorRepository = tutorRepository;
         }
-
         // GET: Show all tutor bookings
         public IActionResult ShowTutor()
         {
@@ -122,9 +121,6 @@ namespace CollegePortal.Controllers
                 return RedirectToAction(nameof(ShowTutor));
             }
         }
-<<<<<<< HEAD
-=======
 
->>>>>>> f07e1f1 (fixed merge issues, dash no longer works)
     }
 }

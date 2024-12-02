@@ -12,10 +12,6 @@ namespace CollegePortal.Controllers
             _repository = repository;
         }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> f07e1f1 (fixed merge issues, dash no longer works)
         // Show all lost-and-found items
         public IActionResult ShowLFItems()
         {
@@ -87,11 +83,8 @@ namespace CollegePortal.Controllers
                 ModelState.AddModelError("", ex.Message);
                 return View("~/Views/Pages/LFViews/LFUpdatecshtml.cshtml", model);
             }
-<<<<<<< HEAD
-=======
 
->>>>>>> f07e1f1 (fixed merge issues, dash no longer works)
         }
     }
-}
 
+}

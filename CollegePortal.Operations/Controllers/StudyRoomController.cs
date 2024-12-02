@@ -2,217 +2,117 @@
 using CollegePortal.Services.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-<<<<<<< HEAD
-namespace CollegePortal.Controllers
-{
-    [Route("[controller]")]
-=======
 namespace CollegePortal.Controllers;
+[Route("[controller]")]
+public class StudyRoomController : Controller
+{
+    private readonly IStudyRoomRepository _studyRoomRepository;
 
->>>>>>> f07e1f1 (fixed merge issues, dash no longer works)
-    public class StudyRoomController : Controller
+    public StudyRoomController(IStudyRoomRepository studyRoomRepository)
     {
-        private readonly IStudyRoomRepository _studyRoomRepository;
+        _studyRoomRepository = studyRoomRepository;
+    }
 
-        public StudyRoomController(IStudyRoomRepository studyRoomRepository)
-        {
-            _studyRoomRepository = studyRoomRepository;
-        }
 
         // Show all study room bookings
         [HttpGet("ShowStudyRooms")]
-        public IActionResult ShowStudyRooms()
+    public IActionResult ShowStudyRooms()
+    {
+        try
         {
-            try
-            {
-                var bookings = _studyRoomRepository.GetStudyRoomBookingsByStudent(0); // Fetch all bookings
-                return View("~/Views/Pages/StudyRoomViews/ShowStudyRoom.cshtml", bookings);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = $"An error occurred: {ex.Message}";
-                return RedirectToAction("Error", "Home");
-<<<<<<< HEAD
-            }
+            var bookings = _studyRoomRepository.GetStudyRoomBookingsByStudent(0); // Fetch all bookings
+            return View("~/Views/Pages/StudyRoomViews/ShowStudyRoom.cshtml", bookings);
+        }
+        catch (Exception ex)
+        {
+            TempData["ErrorMessage"] = $"An error occurred: {ex.Message}";
+            return RedirectToAction("Error", "Home");
+        }
+    }
+
+    // Add a new study room booking (GET)
+    [HttpGet("Create")]
+    public IActionResult Create()
+    {
+        return View("~/Views/Pages/StudyRoomViews/StudyRoomBooking.cshtml");
+    }
+
+    // Add a new study room booking (POST)
+    [HttpPost("Create")]
+    [ValidateAntiForgeryToken]
+    public IActionResult Create(StudyRoomBookings booking)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View("~/Views/Pages/StudyRoomViews/StudyRoomBooking.cshtml", booking);
         }
 
-        // Add a new study room booking (GET)
-        [HttpGet("Create")]
-        public IActionResult Create()
+        try
         {
-            return View("~/Views/Pages/StudyRoomViews/StudyRoomBooking.cshtml");
+            _studyRoomRepository.BookStudyRoom(booking.studentId, booking.studyRoomId, booking.startTime, booking.endTime);
+            TempData["SuccessMessage"] = "Study room booked successfully.";
+            return RedirectToAction("ShowStudyRooms");
+        }
+        catch (Exception ex)
+        {
+            ModelState.AddModelError("", ex.Message);
+            return View("~/Views/Pages/StudyRoomViews/StudyRoomBooking.cshtml", booking);
+        }
+    }
+
+    // Edit a booking (GET)
+    [HttpGet("Edit/{id}")]
+    public IActionResult Edit(int id)
+    {
+        var booking = _studyRoomRepository.GetStudyRoomBookingsByStudent(id);
+
+        if (booking == null)
+        {
+            TempData["ErrorMessage"] = "Booking not found.";
+            return RedirectToAction("ShowStudyRooms");
         }
 
-        // Add a new study room booking (POST)
-        [HttpPost("Create")]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(StudyRoomBookings booking)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View("~/Views/Pages/StudyRoomViews/StudyRoomBooking.cshtml", booking);
-            }
+        return View("~/Views/Pages/StudyRoomViews/StudyRoomUpdate.cshtml", booking);
+    }
 
-            try
-            {
-                _studyRoomRepository.BookStudyRoom(booking.studentId, booking.studyRoomId, booking.startTime, booking.endTime);
-                TempData["SuccessMessage"] = "Study room booked successfully.";
-                return RedirectToAction("ShowStudyRooms");
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", ex.Message);
-                return View("~/Views/Pages/StudyRoomViews/StudyRoomBooking.cshtml", booking);
-            }
+    // Edit a booking (POST)
+    [HttpPost("Edit/{id}")]
+    [ValidateAntiForgeryToken]
+    public IActionResult Edit(int id, StudyRoomBookings updatedBooking)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View("~/Views/Pages/StudyRoomViews/StudyRoomUpdate.cshtml", updatedBooking);
         }
 
-        // Edit a booking (GET)
-        [HttpGet("Edit/{id}")]
-        public IActionResult Edit(int id)
+        try
         {
-            var booking = _studyRoomRepository.GetStudyRoomBookingsByStudent(id);
-
-            if (booking == null)
-            {
-                TempData["ErrorMessage"] = "Booking not found.";
-                return RedirectToAction("ShowStudyRooms");
-            }
-
-            return View("~/Views/Pages/StudyRoomViews/StudyRoomUpdate.cshtml", booking);
+            _studyRoomRepository.UpdateStudyRoomBooking(id, updatedBooking.startTime, updatedBooking.endTime);
+            TempData["SuccessMessage"] = "Booking updated successfully.";
+            return RedirectToAction("ShowStudyRooms");
         }
-
-        // Edit a booking (POST)
-        [HttpPost("Edit/{id}")]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, StudyRoomBookings updatedBooking)
+        catch (Exception ex)
         {
-            if (!ModelState.IsValid)
-            {
-                return View("~/Views/Pages/StudyRoomViews/StudyRoomUpdate.cshtml", updatedBooking);
-            }
-
-            try
-            {
-                _studyRoomRepository.UpdateStudyRoomBooking(id, updatedBooking.startTime, updatedBooking.endTime);
-                TempData["SuccessMessage"] = "Booking updated successfully.";
-                return RedirectToAction("ShowStudyRooms");
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", ex.Message);
-                return View("~/Views/StudyRoomViews/StudyRoomUpdate.cshtml", updatedBooking);
-            }
+            ModelState.AddModelError("", ex.Message);
+            return View("~/Views/StudyRoomViews/StudyRoomUpdate.cshtml", updatedBooking);
         }
+    }
 
-        // Delete a booking
-        [HttpPost("Delete/{id}")]
-        [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
+    // Delete a booking
+    [HttpPost("Delete/{id}")]
+    [ValidateAntiForgeryToken]
+    public IActionResult Delete(int id)
+    {
+        try
         {
-            try
-            {
-                _studyRoomRepository.DeleteStudyRoomBooking(id);
-                TempData["SuccessMessage"] = "Booking deleted successfully.";
-                return RedirectToAction("ShowStudyRooms");
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = $"An error occurred: {ex.Message}";
-                return RedirectToAction("ShowStudyRooms");
-            }
+            _studyRoomRepository.DeleteStudyRoomBooking(id);
+            TempData["SuccessMessage"] = "Booking deleted successfully.";
+            return RedirectToAction("ShowStudyRooms");
+        }
+        catch (Exception ex)
+        {
+            TempData["ErrorMessage"] = $"An error occurred: {ex.Message}";
+            return RedirectToAction("ShowStudyRooms");
         }
     }
 }
-=======
-            }
-        }
-
-        // Add a new study room booking (GET)
-        [HttpGet("Create")]
-        public IActionResult Create()
-        {
-            return View("~/Views/Pages/StudyRoomViews/StudyRoomBooking.cshtml");
-        }
-
-        // Add a new study room booking (POST)
-        [HttpPost("Create")]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(StudyRoomBookings booking)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View("~/Views/Pages/StudyRoomViews/StudyRoomBooking.cshtml", booking);
-            }
-
-            try
-            {
-                _studyRoomRepository.BookStudyRoom(booking.studentId, booking.studyRoomId, booking.startTime, booking.endTime);
-                TempData["SuccessMessage"] = "Study room booked successfully.";
-                return RedirectToAction("ShowStudyRooms");
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", ex.Message);
-                return View("~/Views/Pages/StudyRoomViews/StudyRoomBooking.cshtml", booking);
-            }
-        }
-
-        // Edit a booking (GET)
-        [HttpGet("Edit/{id}")]
-        public IActionResult Edit(int id)
-        {
-            var booking = _studyRoomRepository.GetStudyRoomBookingsByStudent(id);
-
-            if (booking == null)
-            {
-                TempData["ErrorMessage"] = "Booking not found.";
-                return RedirectToAction("ShowStudyRooms");
-            }
-
-            return View("~/Views/Pages/StudyRoomViews/StudyRoomUpdate.cshtml", booking);
-        }
-
-        // Edit a booking (POST)
-        [HttpPost("Edit/{id}")]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, StudyRoomBookings updatedBooking)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View("~/Views/Pages/StudyRoomViews/StudyRoomUpdate.cshtml", updatedBooking);
-            }
-
-            try
-            {
-                _studyRoomRepository.UpdateStudyRoomBooking(id, updatedBooking.startTime, updatedBooking.endTime);
-                TempData["SuccessMessage"] = "Booking updated successfully.";
-                return RedirectToAction("ShowStudyRooms");
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", ex.Message);
-                return View("~/Views/StudyRoomViews/StudyRoomUpdate.cshtml", updatedBooking);
-            }
-        }
-
-        // Delete a booking
-        [HttpPost("Delete/{id}")]
-        [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
-        {
-            try
-            {
-                _studyRoomRepository.DeleteStudyRoomBooking(id);
-                TempData["SuccessMessage"] = "Booking deleted successfully.";
-                return RedirectToAction("ShowStudyRooms");
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = $"An error occurred: {ex.Message}";
-                return RedirectToAction("ShowStudyRooms");
-            }
-        }
-    }
-
-
->>>>>>> f07e1f1 (fixed merge issues, dash no longer works)
