@@ -1,5 +1,31 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model CollegePortal.Entities.Models.LostAndFound
+
 @{
+    ViewData["Title"] = "Update Lost and Found Item";
+}
+
+<h1>Update Lost and Found Item</h1>
+
+<form asp-action="UpdateLFItem" method="post">
+    <div class="form-group">
+        <label asp-for="itemDescription" class="control-label"></label>
+        <textarea asp-for="itemDescription" class="form-control"></textarea>
+        <span asp-validation-for="itemDescription" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="foundDate" class="control-label"></label>
+        <input asp-for="foundDate" class="form-control" />
+        <span asp-validation-for="foundDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="location" class="control-label"></label>
+        <input asp-for="location" class="form-control" />
+        <span asp-validation-for="location" class="text-danger"></span>
+    </div>
+    <input type="hidden" asp-for="postId" />
+    <button type="submit" class="btn btn-primary">Update Item</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }
