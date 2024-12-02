@@ -41,8 +41,9 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+// Set the default controller/action to Student/Login
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Student}/{action=Login}/{id?}"); // Default is now Student/Login
 
 app.Run();

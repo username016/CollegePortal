@@ -14,11 +14,16 @@ namespace CollegePortal.Controllers
         }
 
         // GET: Login Page
-        [HttpGet]
+        /*[HttpGet]
         [Route("Student/Login")]
         public IActionResult Login()
         {
             return View("~/Views/Pages/Student/Login.cshtml"); // Explicit view path
+        }*/
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View("~/Views/Pages/Student/Login.cshtml"); // Explicit path to the Login view
         }
 
         // POST: Authenticate Student
