@@ -1,119 +1,128 @@
 ﻿using CollegePortal.Entities.Models;
+using CollegePortal.Services.DataAccessLayer;
 using CollegePortal.Services.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CollegePortal.Controllers
 {
+    [Route("[controller]")]
     public class GymRoomController : Controller
     {
         private readonly IGymRepository _gymRepository;
+        private readonly IStudentRepository _studentRepository;
+        private readonly DbContextStudent _context;
 
-        public GymRoomController(IGymRepository gymRepository)
+        public GymRoomController(IGymRepository gymRepository, IStudentRepository studentRepository, DbContextStudent context)
         {
             _gymRepository = gymRepository;
+            _studentRepository = studentRepository;
+            _context = context;
         }
 
-        // GET: List all gym rooms
-        public IActionResult Index()
+        // List ALL Gym Room Bookings (GymRoomList.cshtml)
+        [HttpGet]
+        [Route("")]
+        [Route("List")]
+        public IActionResult ListGymBookings()
         {
-            var gymRooms = _gymRepository.ListAvailableGymRooms(DateTime.MinValue, DateTime.MaxValue);
-            return View(gymRooms);
+            // Fetch all gym room bookings with student details using repository method
+            var bookings = _context.GymRoomBookings
+                .Include(b => b.Student)
+                .OrderBy(b => b.startTime)
+                .ToList();
+            return View("GymRoomList", bookings);
         }
 
-        // GET: Details of a specific booking
-        public IActionResult Details(int id)
+        // Book Gym Room (GymRoomBooking.cshtml)
+        [HttpGet]
+        [Route("Book")]
+        public IActionResult BookGymRoom()
         {
-            var booking = _gymRepository.GetGymRoomBookings(id).FirstOrDefault();
-            if (booking == null)
-                return NotFound();
-
-            return View(booking);
+            // Remove the non-existent method call
+            // Instead, you might want to pass necessary data for booking
+            return View("GymRoomBooking");
         }
 
-        // GET: Create a new booking
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Create a new booking
         [HttpPost]
+        [Route("Book")]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(int studentId, int gymRoomId, DateTime startTime, DateTime endTime)
+        public IActionResult BookGymRoom(int studentId, int gymRoomId, DateTime startTime, DateTime endTime)
         {
-            if (_gymRepository.IsBookingConflict(gymRoomId, startTime, endTime))
-            {
-                ModelState.AddModelError("", "The gym room is already booked for the selected time.");
-                return View();
-            }
-
             try
             {
+                // Check for conflicts before booking
+                if (_gymRepository.IsBookingConflict(gymRoomId, startTime, endTime))
+                {
+                    ModelState.AddModelError("", "Gym room is already booked for selected time.");
+                    return View("GymRoomBooking");
+                }
+
+                // Book the room
                 var booking = _gymRepository.BookGymRoom(studentId, gymRoomId, startTime, endTime);
-                TempData["SuccessMessage"] = "Gym room booked successfully!";
-                return RedirectToAction("Index");
+                // Redirect to list of bookings to show confirmation
+                return RedirectToAction(nameof(ListGymBookings));
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
-                return View();
+                return View("GymRoomBooking");
             }
         }
 
-        // GET: Edit a booking
-        public IActionResult Edit(int id)
+        // Update Booking
+        [HttpGet]
+        [Route("Update/{bookingId:int}")]
+        public IActionResult UpdateBooking(int bookingId)
         {
-            var booking = _gymRepository.GetGymRoomBookings(id).FirstOrDefault();
-            if (booking == null)
-                return NotFound();
+            // Use context to find the booking directly
+            var booking = _context.GymRoomBookings.Find(bookingId);
 
-            return View(booking);
+            if (booking == null)
+            {
+                return NotFound();
+            }
+
+            return View("GymRoomUpdate", booking);
         }
 
-        // POST: Update a booking
         [HttpPost]
+        [Route("Update/{bookingId:int}")]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int bookingId, DateTime startTime, DateTime endTime)
+        public IActionResult UpdateBooking(int bookingId, DateTime newStartTime, DateTime newEndTime)
         {
             try
             {
-                var updatedBooking = _gymRepository.UpdateRoom(bookingId, startTime, endTime);
-                TempData["SuccessMessage"] = "Booking updated successfully!";
-                return RedirectToAction("Index");
+                var updatedBooking = _gymRepository.UpdateRoom(bookingId, newStartTime, newEndTime);
+                return RedirectToAction(nameof(ListGymBookings));
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
-                return View();
+                return View("GymRoomUpdate");
             }
         }
 
-        // GET: Delete a booking (confirmation)
-        public IActionResult Delete(int id)
-        {
-            var booking = _gymRepository.GetGymRoomBookings(id).FirstOrDefault();
-            if (booking == null)
-                return NotFound();
-
-            return View(booking);
-        }
-
-        // POST: Delete a booking
-        [HttpPost, ActionName("Delete")]
+        // Delete Booking
+        [HttpPost]
+        [Route("Delete/{bookingId:int}")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public IActionResult DeleteBooking(int bookingId)
         {
             try
             {
-                _gymRepository.Delete(id);
-                TempData["SuccessMessage"] = "Booking deleted successfully!";
-                return RedirectToAction("Index");
+                _gymRepository.Delete(bookingId);
+                return RedirectToAction(nameof(ListGymBookings));
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", ex.Message);
-                return RedirectToAction("Index");
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction(nameof(ListGymBookings));
             }
         }
     }
 }
+}
+
+
+

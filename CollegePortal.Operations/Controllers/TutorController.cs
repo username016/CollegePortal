@@ -16,7 +16,9 @@ namespace CollegePortal.Api.Controllers
             _tutorRepository = tutorRepository;
         }
 
-        // Get all tutor bookings
+      
+        /* 
+          // Get all tutor bookings
         [HttpGet("GetAllTutorBookings")]
         public IActionResult GetAllTutorBookings(int studentId, DateTime startTime, DateTime endTime)
         {
@@ -30,6 +32,7 @@ namespace CollegePortal.Api.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+        */
 
         // Get bookings for a specific tutor
         [HttpGet("GetTutorBookings/{tutorId}")]

@@ -5,7 +5,7 @@ namespace CollegePortal.Services.Repositories
 	public interface IGymRepository 
 	{
         //Get all gym rooms
-        public IEnumerable<GymRoomBookings> ListAvailableGymRooms(DateTime startTime, DateTime endTime);
+      //  public IEnumerable<GymRoomBookings> ListAvailableGymRooms(DateTime startTime, DateTime endTime);
 
         //Show the singular gym rooms
         // Get bookings for a specific gym room

@@ -16,6 +16,7 @@ namespace CollegePortal.Api.Controllers
             _studyRoomRepository = studyRoomRepository;
         }
 
+       /*
         // Get all study room bookings
         [HttpGet("GetAllStudyRoomBookings")]
         public IActionResult GetAllStudyRoomBookings(DateTime startTime, DateTime endTime)
@@ -30,6 +31,7 @@ namespace CollegePortal.Api.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+       */
 
         // Get bookings for a specific study room by student ID
         [HttpGet("GetStudyRoomBookingsByStudent/{studentId}")]

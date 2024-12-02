@@ -13,13 +13,13 @@ namespace CollegePortal.Services.Repositories
         }
 
         // Get all study room bookings
-        public IEnumerable<StudyRoomBookings> GetAllStudyRoomBookings(DateTime startTime, DateTime endTime)
+     /*   public IEnumerable<StudyRoomBookings> GetAllStudyRoomBookings(DateTime startTime, DateTime endTime)
         {
             return _context.StudyRoomBookings
                 .Where(b => (startTime < b.endTime && endTime > b.startTime)) // Check for overlap with selected times
                 .ToList();
         }
-
+     */
         // Get bookings for a specific study room
         public IEnumerable<StudyRoomBookings> GetStudyRoomBookingsByStudent(int studentId)
         {

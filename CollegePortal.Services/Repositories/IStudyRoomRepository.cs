@@ -11,7 +11,7 @@ namespace CollegePortal.Services.Repositories
     {
 
         // Get all study room bookings
-        public IEnumerable<StudyRoomBookings> GetAllStudyRoomBookings(DateTime startTime, DateTime endTime);
+     //   public IEnumerable<StudyRoomBookings> GetAllStudyRoomBookings(DateTime startTime, DateTime endTime);
 
         // Get bookings for a specific study room by studentID
        public IEnumerable<StudyRoomBookings> GetStudyRoomBookingsByStudent(int studentId);

@@ -19,6 +19,7 @@ namespace CollegePortal.Services.Repositories
 
         // Get all gym rooms
         // Get available gym rooms for a given time range
+        /*
         public IEnumerable<GymRoomBookings> ListAvailableGymRooms(DateTime startTime, DateTime endTime)
         {
             // Query to get rooms that are not booked during the time range
@@ -37,7 +38,8 @@ namespace CollegePortal.Services.Repositories
                 .ToList();
 
             return availableRooms;
-        }
+        }*/ 
+        //Work in Progress 
 
         public IEnumerable<GymRoomBookings> GetGymRoomBookings(int gymRoomId)
         {

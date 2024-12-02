@@ -14,7 +14,7 @@ namespace CollegePortal.Services.Repositories
         }
 
         // Get all tutor bookings
-        public IEnumerable<TutorBookings> GetAllTutorBookings(int studentId, DateTime startTime, DateTime endTime)
+   /*     public IEnumerable<TutorBookings> GetAllTutorBookings(int studentId, DateTime startTime, DateTime endTime)
         {
             return _context.TutorBookings
                 .Where(b => b.studentId == studentId &&
@@ -22,6 +22,8 @@ namespace CollegePortal.Services.Repositories
                             b.endTime <= endTime) // Filter by time range and studentId
                 .ToList();
         }
+
+        */
 
         // Get bookings for a specific tutor
         public IEnumerable<TutorBookings> GetTutorBookings(int tutorId, DateTime startTime, DateTime endTime)
