@@ -1,0 +1,26 @@
+﻿@model CollegePortal.Entities.Models.Student
+
+<h2>Register</h2>
+
+<form asp-action="Register" method="post">
+    <div>
+        <label asp-for="name"></label>
+        <input asp-for="name" />
+        <span asp-validation-for="name" style="color: red"></span>
+    </div>
+    <div>
+        <label asp-for="password"></label>
+        <input asp-for="password" type="password" />
+        <span asp-validation-for="password" style="color: red"></span>
+    </div>
+    <div>
+        <button type="submit">Register</button>
+    </div>
+</form>
+
+<hr />
+
+<!-- Back to Login -->
+<div>
+    <p>Already have an account? <a asp-controller="Student" asp-action="Login">Login here</a></p>
+</div>
