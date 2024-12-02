@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewData["Title"] = "Dashboard";
+}
+<!---
+
+<h2 class="text-center mt-4">Welcome to the Dashboard</h2>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+
+<div class="col-md-3 text-center">
+    <a asp-controller="GymRoom" asp-action="Index" class="d-block">
+        <img src="/images/gym.png" alt="Gym Room" class="img-fluid rounded-circle mb-2" style="width: 150px; height: 150px;" />
+        <p class="fw-bold text-secondary">Gym Room Booking</p>
+    </a>
+</div>
+
+
+<div class="col-md-3 text-center">
+    <a asp-controller="StudyRoom" asp-action="Index" class="d-block">
+        <img src="/images/studyroom.png" alt="Study Room" class="img-fluid rounded-circle mb-2" style="width: 150px; height: 150px;" />
+        <p class="fw-bold text-secondary">Study Room Booking</p>
+    </a>
+</div>
+
+
+<div class="col-md-3 text-center">
+    <a asp-controller="LostAndFound" asp-action="Index" class="d-block">
+        <img src="/images/lostandfound.png" alt="Lost and Found" class="img-fluid rounded-circle mb-2" style="width: 150px; height: 150px;" />
+        <p class="fw-bold text-secondary">Lost and Found</p>
+    </a>
+</div>
+
+
+<div class="col-md-3 text-center">
+    <a asp-controller="Tutor" asp-action="Index" class="d-block">
+        <img src="/images/tutor.png" alt="Tutor Booking" class="img-fluid rounded-circle mb-2" style="width: 150px; height: 150px;" />
+        <p class="fw-bold text-secondary">Tutor Booking</p>
+    </a>
+</div>
+    </div>
+</div>  -->
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h2 class="text-center">Welcome to the Dashboard</h2>
+
+<div class="container mt-4">
+    <div class="row">
+        <!-- Gym Room Booking -->
+        <div class="col-md-3 text-center">
+            <a asp-controller="GymRoom" asp-action="ListGymBookings">
+                <img src="/images/gym.png" alt="Gym Room" class="img-fluid rounded-circle mb-2" style="width: 150px; height: 150px;" />
+                <p class="fw-bold text-secondary">Gym Room Booking</p>
+            </a>
+        </div>
+
+        <!-- Study Room Booking -->
+        <div class="col-md-3 text-center">
+            <a asp-controller="StudyRoom" asp-action="GetStudyRoomBookingsByStudent">
+                <img src="/images/studyroom.png" alt="Study Room" class="img-fluid rounded-circle mb-2" style="width: 150px; height: 150px;" />
+                <p class="fw-bold text-secondary">Study Room Booking</p>
+            </a>
+        </div>
+
+        <!-- Lost and Found -->
+        <div class="col-md-3 text-center">
+            <a asp-controller="LostAndFound" asp-action="Index">
+                <img src="/images/lostandfound.png" alt="Lost and Found" class="img-fluid rounded-circle mb-2" style="width: 150px; height: 150px;" />
+                <p class="fw-bold text-secondary">Lost and Found</p>
+            </a>
+        </div>
+
+        <!-- Tutor Booking -->
+        <div class="col-md-3 text-center">
+            <a asp-controller="Tutor" asp-action="GetTutorBookings">
+                <img src="/images/tutor.png" alt="Tutor Booking" class="img-fluid rounded-circle mb-2" style="width: 150px; height: 150px;" />
+                <p class="fw-bold text-secondary">Tutor Booking</p>
+            </a>
+        </div>
+    </div>
+</div>
+
+

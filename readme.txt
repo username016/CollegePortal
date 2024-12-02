@@ -55,6 +55,13 @@ GuideForDevs.txt, MeetingLogs.txt, readme.txt: Documentation files for the devel
 Let me know if you'd like a detailed explanation or assistance with specific parts!
 
 
+Revisions by ayat:
+-css
+-new dashboard page
+-some authentication for login (not perfect)
+-routing
+
+
 
 
 

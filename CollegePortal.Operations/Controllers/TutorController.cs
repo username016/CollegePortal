@@ -1,5 +1,4 @@
-﻿using CollegePortal.Entities.Models;
-using CollegePortal.Services.Repositories;
+﻿using CollegePortal.Services.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -123,5 +122,9 @@ namespace CollegePortal.Controllers
                 return RedirectToAction(nameof(ShowTutor));
             }
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> f07e1f1 (fixed merge issues, dash no longer works)
     }
 }

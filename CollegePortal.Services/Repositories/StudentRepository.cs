@@ -1,5 +1,6 @@
 ﻿using CollegePortal.Entities.Models;
 using CollegePortal.Services.DataAccessLayer;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CollegePortal.Services.Repositories
@@ -7,6 +8,7 @@ namespace CollegePortal.Services.Repositories
     public class StudentRepository : IStudentRepository
     {
         private readonly DbContextStudent _context;
+        private string password;
 
         public StudentRepository(DbContextStudent context)
         {
@@ -21,10 +23,24 @@ namespace CollegePortal.Services.Repositories
             return student;
         }
 
-        // Authenticate a student (login)
-        public Student? AuthenticateStudent(string name, string password)
+        // Authenticate a student based on their name and password
+        public Student AuthenticateStudent(string name, string password)
         {
             return _context.Students.FirstOrDefault(s => s.name == name && s.password == password);
         }
+
+        // Get all students
+        public IEnumerable<Student> GetAllStudents()
+        {
+            return _context.Students.ToList();
+        }
+
+        // Get a student by name
+        public Student GetStudentByName(string name)
+        {
+            return _context.Students.FirstOrDefault(s => s.name == name);
+           
+        }
+
     }
 }

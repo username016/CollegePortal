@@ -1,43 +1,23 @@
-﻿@model IEnumerable<CollegePortal.Entities.Models.GymRoomBookings>
+﻿@model CollegePortal.Entities.Models.GymRoomBookings
 
-<h1>Gym Room Bookings</h1>
+<h2>Book a Gym Room</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Booking ID</th>
-            <th>Student ID</th>
-            <th>Gym Room ID</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null && Model.Any())
-        {
-            foreach (var booking in Model)
-            {
-                <tr>
-                    <td>@booking.bookingId</td>
-                    <td>@booking.studentId</td>
-                    <td>@booking.gymRoomId</td>
-                    <td>@booking.startTime</td>
-                    <td>@booking.endTime</td>
-                    <td>
-                        <a asp-controller="GymRoom" asp-action="Edit" asp-route-id="@booking.bookingId" class="btn btn-warning">Edit</a>
-                        <a asp-controller="GymRoom" asp-action="Delete" asp-route-id="@booking.bookingId" class="btn btn-danger">Delete</a>
-                    </td>
-                </tr>
-            }
-        }
-        else
-        {
-            <tr>
-                <td colspan="6">No bookings available.</td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<a asp-controller="GymRoom" asp-action="Create" class="btn btn-primary">Book a Gym Room</a>
+<form asp-action="Book" method="post">
+    <div class="form-group">
+        <label asp-for="studentId"></label>
+        <select asp-for="studentId" asp-items="@(new SelectList(ViewBag.Students, "studentId", "studentName"))" class="form-control"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="gymRoomId"></label>
+        <select asp-for="gymRoomId" asp-items="@(new SelectList(ViewBag.Rooms, "gymRoomId", "gymRoomId"))" class="form-control"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="startTime"></label>
+        <input asp-for="startTime" type="datetime-local" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="endTime"></label>
+        <input asp-for="endTime" type="datetime-local" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Book Room</button>
+</form>

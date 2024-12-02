@@ -1,45 +1,40 @@
 ﻿@model CollegePortal.Entities.Models.Student
-<!---
-<h2>Login</h2>
+@{
+    ViewData["Title"] = "Login";
+}
 
-<form asp-action="Login" method="post">
-    <div>
-        <label asp-for="name"></label>
-        <input asp-for="name" />
-        <span asp-validation-for="name" style="color: red"></span>
-    </div>
-    <div>
-        <label asp-for="password"></label>
-        <input asp-for="password" type="password" />
-        <span asp-validation-for="password" style="color: red"></span>
-    </div>
-    <div>
-        <button type="submit">Login</button>
-    </div>
-</form>
-    -->
+<h2 class="text-center">Login</h2>
 
-<h2>Login</h2>
+<!-- Display general error message -->
+@if (ViewData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger text-center">
+        @ViewData["ErrorMessage"]
+    </div>
+}
 
-<form asp-action="Login" method="post">
-    <div>
-        <label asp-for="name"></label>
-        <input asp-for="name" />
-        <span asp-validation-for="name" style="color: red"></span>
+<form asp-action="Login" method="post" class="mt-4 mx-auto" style="max-width: 400px;">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text"
+               id="name"
+               name="name"
+               class="form-control"
+               placeholder="Enter username"
+               required />
     </div>
-    <div>
-        <label asp-for="password"></label>
-        <input asp-for="password" type="password" />
-        <span asp-validation-for="password" style="color: red"></span>
+    <div class="form-group mt-2">
+        <label for="password">Password</label>
+        <input type="password"
+               id="password"
+               name="password"
+               class="form-control"
+               placeholder="Enter password"
+               required />
     </div>
-    <div>
-        <button type="submit">Login</button>
-    </div>
+    <button type="submit" class="btn btn-primary mt-3 w-100">Login</button>
 </form>
 
-<hr />
-
-<!-- Add Register Hyperlink -->
-<div>
-    <p>Don't have an account? <a asp-controller="Student" asp-action="Register">Register here</a></p>
-</div>
+<p class="mt-3 text-center">
+    Don't have an account? <a asp-controller="Student" asp-action="Register">Register Now</a>
+</p>
