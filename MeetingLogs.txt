@@ -1,3 +1,11 @@
 ﻿
+Project Meeting Logs 
+
+
 Tuesday November 19th -> Initial meeting attended by Ayat, Mohammed and Ding, Git issues dealt with and initial test commits made.
 Wednesday November 20th -> Added Initial Files for the views and made a rough diagram on what we're going to implement. - Mohammad Raja
+Thursday November 21st -> meeting in learning commons to check progress and discuss missing functionalities
+Friday November 22nd -> Ding and Mohammed meet to discuss some bugs
+Saturday November 23rd -> Mohammed uploads some of steps to be implemented on the discord
+November 31st/ December 1st -> final meetings to finish presentation, do migrations and work on any database issues for the project
+
