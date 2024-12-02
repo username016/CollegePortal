@@ -1,7 +1,41 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+﻿@model IEnumerable<CollegePortal.Entities.Models.GymRoomBookings>
 
-So show all the gym bookings according to the student
-*@
 @{
+    ViewData["Title"] = "Gym Room Bookings List";
 }
+
+<h2>Gym Room Bookings</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Booking ID</th>
+            <th>Student Name</th>
+            <th>Gym Room ID</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Duration</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var booking in Model)
+        {
+            <tr>
+                <td>@booking.bookingId</td>
+                <td>@booking.studentName</td>
+                <td>@booking.gymRoomId</td>
+                <td>@booking.startTime.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>@booking.endTime.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>@booking.Duration</td>
+                <td>
+                    <a class="btn btn-primary" href="@Url.Action("UpdateBooking", "GymRoom", new { bookingId = booking.bookingId })">Update</a>
+                    <form asp-action="DeleteBooking" asp-controller="GymRoom" method="post" class="d-inline">
+                        <input type="hidden" name="bookingId" value="@booking.bookingId" />
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
