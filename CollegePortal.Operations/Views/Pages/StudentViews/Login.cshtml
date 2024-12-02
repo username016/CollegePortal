@@ -1,24 +1,27 @@
-﻿@{
+﻿@model CollegePortal.Operation.Models.LoginViewModel
+
+@{
     ViewData["Title"] = "Student Login";
 }
 
 <h2>Student Login</h2>
 
-@if (ViewBag.ErrorMessage != null)
-{
-    <div style="color:red;">@ViewBag.ErrorMessage</div>
-}
-
 <form method="post" action="/Student/Login">
     <div>
-        <label for="name">Username:</label>
-        <input type="text" id="name" name="name" required />
+        <label asp-for="Email"></label>
+        <input asp-for="Email" />
+        <span asp-validation-for="Email" style="color:red;"></span>
     </div>
     <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required />
+        <label asp-for="Password"></label>
+        <input asp-for="Password" />
+        <span asp-validation-for="Password" style="color:red;"></span>
     </div>
     <div>
         <button type="submit">Login</button>
     </div>
 </form>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
