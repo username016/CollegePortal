@@ -1,7 +1,5 @@
 ﻿using CollegePortal.Entities.Models;
 using CollegePortal.Services.DataAccessLayer;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace CollegePortal.Services.Repositories
@@ -30,4 +28,3 @@ namespace CollegePortal.Services.Repositories
         }
     }
 }
-

@@ -5,9 +5,14 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddRazorOptions(options =>
+    {
+        // Add custom view location for Pages/Students folder
+        options.ViewLocationFormats.Add("/Views/Pages/Students/{0}.cshtml");
+    });
 
-//Db Context Connection string and build
+// DbContext connection string and build
 builder.Services.AddDbContext<DbContextStudent>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
@@ -18,8 +23,6 @@ builder.Services.AddScoped<ILFRepository, LFRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IStudyRoomRepository, StudyRoomRepository>();
 builder.Services.AddScoped<ITutorRepository, TutorRepository>();
-
-
 
 var app = builder.Build();
 
@@ -36,13 +39,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization(); 
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
-
-
-//testing

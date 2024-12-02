@@ -1,5 +1,5 @@
-﻿using CollegePortal.Services.Repositories;
-using CollegePortal.Operation.Models;
+﻿using CollegePortal.Entities.Models;
+using CollegePortal.Services.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CollegePortal.Controllers
@@ -14,30 +14,30 @@ namespace CollegePortal.Controllers
         }
 
         // GET: Login Page
+        [HttpGet]
+        [Route("Student/Login")]
         public IActionResult Login()
         {
-            return View(new LoginViewModel());
+            return View("~/Views/Pages/Student/Login.cshtml"); // Explicit view path
         }
 
-        // POST: Login Action
+        // POST: Authenticate Student
         [HttpPost]
-        public IActionResult Login(LoginViewModel model)
+        [Route("Student/Login")]
+        public IActionResult Login(Student model)
         {
             if (ModelState.IsValid)
             {
-                var student = _studentRepository.AuthenticateStudent(model.Email, model.Password);
+                var student = _studentRepository.AuthenticateStudent(model.name, model.password);
+
                 if (student != null)
                 {
-                    // Redirect to dashboard or a success page
-                    return RedirectToAction("Dashboard", "Home");
+                    return RedirectToAction("Dashboard", "Home"); // Redirect on success
                 }
-                else
-                {
-                    // Add error message for failed login
-                    ModelState.AddModelError(string.Empty, "Invalid email or password.");
-                }
+
+                ModelState.AddModelError(string.Empty, "Invalid name or password.");
             }
-            return View(model); // Return the view with validation errors
+            return View("~/Views/Pages/Student/Login.cshtml", model);
         }
     }
 }
