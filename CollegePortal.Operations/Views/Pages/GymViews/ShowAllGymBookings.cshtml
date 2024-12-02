@@ -1,20 +1,29 @@
 ﻿@model IEnumerable<CollegePortal.Entities.Models.GymRoomBookings>
 
-@{
-    ViewData["Title"] = "Gym Room Bookings List";
+<h1>All Gym Room Bookings</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
 }
 
-<h2>Gym Room Bookings</h2>
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
 
-<table class="table table-bordered">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>Booking ID</th>
             <th>Student Name</th>
-            <th>Gym Room ID</th>
+            <th>Room ID</th>
             <th>Start Time</th>
             <th>End Time</th>
-            <th>Duration</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -23,14 +32,17 @@
         {
             <tr>
                 <td>@booking.bookingId</td>
-                <td>@booking.studentName</td>
+                <td>@booking.Student?.studentId</td>
                 <td>@booking.gymRoomId</td>
-                <td>@booking.startTime.ToString("yyyy-MM-dd HH:mm")</td>
-                <td>@booking.endTime.ToString("yyyy-MM-dd HH:mm")</td>
-                <td>@booking.Duration</td>
+                <td>@booking.startTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                <td>@booking.endTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
                 <td>
-                    <a class="btn btn-primary" href="@Url.Action("UpdateBooking", "GymRoom", new { bookingId = booking.bookingId })">Update</a>
-                    <form asp-action="DeleteBooking" asp-controller="GymRoom" method="post" class="d-inline">
+                    <!-- Update Button -->
+                    <a asp-action="UpdateBooking" asp-route-bookingId="@booking.bookingId" class="btn btn-warning">Update</a>
+
+                    <!-- Delete Button -->
+                    <form asp-action="Delete" asp-controller="GymRoom" method="post" style="display:inline;">
+                        @Html.AntiForgeryToken()
                         <input type="hidden" name="bookingId" value="@booking.bookingId" />
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
@@ -39,3 +51,5 @@
         }
     </tbody>
 </table>
+
+<a asp-action="Book" asp-controller="GymRoom" class="btn btn-primary">Book New Room</a>

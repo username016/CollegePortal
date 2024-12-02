@@ -1,4 +1,5 @@
-﻿using CollegePortal.Services.DataAccessLayer;
+﻿using CollegePortal.Entities.Models;
+using CollegePortal.Services.DataAccessLayer;
 using CollegePortal.Services.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,14 +26,20 @@ namespace CollegePortal.Controllers
         [Route("List")]
         public IActionResult ListGymBookings()
         {
-            // Fetch all gym room bookings with student details using repository method
-            var bookings = _context.GymRoomBookings
-                .Include(b => b.Student)
-                .OrderBy(b => b.startTime)
-                .ToList();
+            try
+            {
+                var bookings = _context.GymRoomBookings
+                    .Include(b => b.Student)
+                    .OrderBy(b => b.startTime)
+                    .ToList();
 
-            // Use the full relative path to the view
-            return View("~/Views/Pages/GymViews/ShowAllGymBookings.cshtml", bookings);
+                return View("~/Views/Pages/GymViews/ShowAllGymBookings.cshtml", bookings);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"An error occurred while fetching bookings: {ex.Message}";
+                return RedirectToAction("Error", "Home");
+            }
         }
 
         // Book Gym Room (GymRoomBooking.cshtml)
@@ -40,32 +47,52 @@ namespace CollegePortal.Controllers
         [Route("Book")]
         public IActionResult BookGymRoom()
         {
+            ViewBag.Students = _context.Students.ToList();
+            ViewBag.Rooms = _context.GymRoomBookings.ToList();
+
             return View("~/Views/Pages/GymViews/GymRoomBooking.cshtml");
         }
+
 
         [HttpPost]
         [Route("Book")]
         [ValidateAntiForgeryToken]
-        public IActionResult BookGymRoom(int studentId, int gymRoomId, DateTime startTime, DateTime endTime)
+        public IActionResult BookGymRoom(GymRoomBookings booking)
         {
             try
             {
-                // Check for conflicts before booking
-                if (_gymRepository.IsBookingConflict(gymRoomId, startTime, endTime))
+                if (!ModelState.IsValid)
                 {
-                    ModelState.AddModelError("", "Gym room is already booked for selected time.");
-                    return View("~/Views/Pages/GymViews/GymRoomBooking.cshtml");
+                    // Reload necessary data for the view if validation fails
+                    ViewBag.Students = _context.Students.ToList();
+                    ViewBag.Rooms = _context.GymRoomBookings.ToList();
+
+                    return View("~/Views/Pages/GymViews/GymRoomBooking.cshtml", booking);
                 }
 
-                // Book the room
-                var booking = _gymRepository.BookGymRoom(studentId, gymRoomId, startTime, endTime);
-                // Redirect to list of bookings to show confirmation
+                // Check for booking conflicts
+                if (_gymRepository.IsBookingConflict(booking.gymRoomId, booking.startTime, booking.endTime))
+                {
+                    ModelState.AddModelError("", "Gym room is already booked for the selected time.");
+
+                    // Reload data for the view
+                    ViewBag.Students = _context.Students.ToList();
+                    ViewBag.Rooms = _context.GymRoomBookings.ToList();
+
+                    return View("~/Views/Pages/GymViews/GymRoomBooking.cshtml", booking);
+                }
+
+                // Save the booking
+                _context.GymRoomBookings.Add(booking);
+                _context.SaveChanges();
+
+                TempData["SuccessMessage"] = "Gym room booked successfully.";
                 return RedirectToAction(nameof(ListGymBookings));
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", ex.Message);
-                return View("~/Views/Pages/GymViews/GymRoomBooking.cshtml");
+                ModelState.AddModelError("", $"An error occurred: {ex.Message}");
+                return View("~/Views/Pages/GymViews/GymRoomBooking.cshtml", booking);
             }
         }
 
@@ -74,7 +101,6 @@ namespace CollegePortal.Controllers
         [Route("Update/{bookingId:int}")]
         public IActionResult UpdateBooking(int bookingId)
         {
-            // Use context to find the booking directly
             var booking = _context.GymRoomBookings.Find(bookingId);
 
             if (booking == null)
@@ -90,32 +116,42 @@ namespace CollegePortal.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult UpdateBooking(int bookingId, DateTime newStartTime, DateTime newEndTime)
         {
+            var booking = _context.GymRoomBookings.Find(bookingId);
+
+            if (booking == null)
+            {
+                return NotFound();
+            }
+
             try
             {
-                var updatedBooking = _gymRepository.UpdateRoom(bookingId, newStartTime, newEndTime);
+                // Update the booking
+                _gymRepository.UpdateRoom(bookingId, newStartTime, newEndTime);
+                TempData["SuccessMessage"] = "Booking updated successfully.";
                 return RedirectToAction(nameof(ListGymBookings));
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", ex.Message);
-                return View("~/Views/Pages/GymViews/GymRoomUpdate.cshtml");
+                ModelState.AddModelError("", $"An error occurred: {ex.Message}");
+                return View("~/Views/Pages/GymViews/GymRoomUpdate.cshtml", booking);
             }
         }
 
         // Delete Booking
         [HttpPost]
-        [Route("Delete/{bookingId:int}")]
+        [Route("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteBooking(int bookingId)
         {
             try
             {
                 _gymRepository.Delete(bookingId);
+                TempData["SuccessMessage"] = "Booking deleted successfully.";
                 return RedirectToAction(nameof(ListGymBookings));
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = ex.Message;
+                TempData["ErrorMessage"] = $"An error occurred: {ex.Message}";
                 return RedirectToAction(nameof(ListGymBookings));
             }
         }
