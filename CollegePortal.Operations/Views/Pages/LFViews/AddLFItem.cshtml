@@ -1,30 +1,33 @@
 ﻿@model CollegePortal.Entities.Models.LostAndFound
 
-@{
-    ViewData["Title"] = "Add Lost and Found Item";
-}
-
 <h1>Add Lost and Found Item</h1>
 
 <form asp-action="AddLFItem" method="post">
+    @Html.AntiForgeryToken()
+
     <div class="form-group">
-        <label asp-for="itemDescription" class="control-label"></label>
+        <label asp-for="studentId" class="control-label">Student ID</label>
+        <input asp-for="studentId" class="form-control" />
+        <span asp-validation-for="studentId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="itemDescription" class="control-label">Description</label>
         <textarea asp-for="itemDescription" class="form-control"></textarea>
         <span asp-validation-for="itemDescription" class="text-danger"></span>
     </div>
+
     <div class="form-group">
-        <label asp-for="foundDate" class="control-label"></label>
-        <input asp-for="foundDate" class="form-control" />
+        <label asp-for="foundDate" class="control-label">Date Found</label>
+        <input asp-for="foundDate" class="form-control" type="datetime-local" />
         <span asp-validation-for="foundDate" class="text-danger"></span>
     </div>
+
     <div class="form-group">
-        <label asp-for="location" class="control-label"></label>
+        <label asp-for="location" class="control-label">Location</label>
         <input asp-for="location" class="form-control" />
         <span asp-validation-for="location" class="text-danger"></span>
     </div>
+
     <button type="submit" class="btn btn-primary">Add Item</button>
 </form>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}

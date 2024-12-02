@@ -2,7 +2,17 @@
 
 <h1>Lost and Found Items</h1>
 
-<table class="table">
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+<table class="table table-striped">
     <thead>
         <tr>
             <th>Post ID</th>
@@ -14,21 +24,29 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @if (Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.postId</td>
+                    <td>@item.studentId</td>
+                    <td>@item.itemDescription</td>
+                    <td>@item.foundDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td>@item.location</td>
+                    <td>
+                        <a asp-action="LFUpdate" asp-route-id="@item.postId" class="btn btn-warning">Edit</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
         {
             <tr>
-                <td>@item.postId</td>
-                <td>@item.studentId</td>
-                <td>@item.itemDescription</td>
-                <td>@item.foundDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
-                <td>@item.location</td>
-                <td>
-                    <a asp-controller="LostAndFound" asp-action="Edit" asp-route-id="@item.postId" class="btn btn-warning">Edit</a>
-                    <a asp-controller="LostAndFound" asp-action="Delete" asp-route-id="@item.postId" class="btn btn-danger">Delete</a>
-                </td>
+                <td colspan="6">No items found.</td>
             </tr>
         }
     </tbody>
 </table>
 
-<a asp-controller="LostAndFound" asp-action="Create" class="btn btn-primary">Add New Item</a>
+<a asp-action="AddLFItem" class="btn btn-primary">Add New Item</a>

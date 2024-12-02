@@ -7,128 +7,83 @@ namespace CollegePortal.Controllers
 {
     public class LostAndFoundController : Controller
     {
-        private readonly ILFRepository _lostAndFoundRepository;
+        private readonly ILFRepository _repository;
 
-        public LostAndFoundController(ILFRepository lostAndFoundRepository)
+        public LostAndFoundController(ILFRepository repository)
         {
-            _lostAndFoundRepository = lostAndFoundRepository;
+            _repository = repository;
         }
 
-        // GET: List all lost-and-found items
-        public IActionResult Index()
+        // Show all lost-and-found items
+        public IActionResult ShowLFItems()
         {
-            var items = _lostAndFoundRepository.GetAllLostFound();
-            return View(items);
+            var items = _repository.GetAllLostFound();
+            return View("~/Views/Pages/LFViews/ShowLFItems.cshtml", items); // Ensure this matches your folder structure
         }
 
-        // GET: Details of a specific lost-and-found item
-        public IActionResult Details(int id)
+        // Add a new lost-and-found item (GET)
+        public IActionResult AddLFItem()
         {
-            try
-            {
-                var item = _lostAndFoundRepository.GetLostFoundById(id);
-                return View(item);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = ex.Message;
-                return RedirectToAction("Index");
-            }
+            return View("~/Views/Pages/LFViews/AddLFItem.cshtml");
         }
 
-        // GET: Create a new lost-and-found post
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Create a new lost-and-found post
+        // Add a new lost-and-found item (POST)
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(int studentId, string itemDescription, DateTime foundDate, string location)
+        public IActionResult AddLFItem(LostAndFound model)
         {
             if (!ModelState.IsValid)
-                return View();
+            {
+                return View("~/Views/Pages/LFViews/AddLFItem.cshtml", model);
+            }
 
             try
             {
-                _lostAndFoundRepository.CreateLostFound(studentId, itemDescription, foundDate, location);
-                TempData["SuccessMessage"] = "Lost-and-found item added successfully!";
-                return RedirectToAction("Index");
+                _repository.CreateLostFound(model.studentId, model.itemDescription, model.foundDate, model.location);
+                TempData["SuccessMessage"] = "Item added successfully.";
+                return RedirectToAction(nameof(ShowLFItems));
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
-                return View();
+                return View("~/Views/Pages/LFViews/AddLFItem.cshtml", model);
             }
         }
 
-        // GET: Edit a lost-and-found item
-        public IActionResult Edit(int id)
+        // Update a lost-and-found item (GET)
+        public IActionResult LFUpdate(int id)
         {
-            try
+            var item = _repository.GetLostFoundById(id);
+
+            if (item == null)
             {
-                var item = _lostAndFoundRepository.GetLostFoundById(id);
-                return View(item);
+                TempData["ErrorMessage"] = "Item not found.";
+                return RedirectToAction(nameof(ShowLFItems));
             }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = ex.Message;
-                return RedirectToAction("Index");
-            }
+
+            return View("~/Views/Pages/LFViews/LFUpdatecshtml.cshtml", item);
         }
 
-        // POST: Update a lost-and-found item
+        // Update a lost-and-found item (POST)
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, string itemDescription, DateTime foundDate, string location)
+        public IActionResult LFUpdate(LostAndFound model)
         {
             if (!ModelState.IsValid)
-                return View();
+            {
+                return View("~/Views/Pages/LFViews/LFUpdatecshtml.cshtml", model);
+            }
 
             try
             {
-                _lostAndFoundRepository.UpdateLostFound(id, itemDescription, foundDate, location);
-                TempData["SuccessMessage"] = "Lost-and-found item updated successfully!";
-                return RedirectToAction("Index");
+                _repository.UpdateLostFound(model.postId, model.itemDescription, model.foundDate, model.location);
+                TempData["SuccessMessage"] = "Item updated successfully.";
+                return RedirectToAction(nameof(ShowLFItems));
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
-                return View();
-            }
-        }
-
-        // GET: Delete a lost-and-found item (confirmation)
-        public IActionResult Delete(int id)
-        {
-            try
-            {
-                var item = _lostAndFoundRepository.GetLostFoundById(id);
-                return View(item);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = ex.Message;
-                return RedirectToAction("Index");
-            }
-        }
-
-        // POST: Delete a lost-and-found item
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
-        {
-            try
-            {
-                _lostAndFoundRepository.DeleteLostFound(id);
-                TempData["SuccessMessage"] = "Lost-and-found item deleted successfully!";
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", ex.Message);
-                return RedirectToAction("Index");
+                return View("~/Views/Pages/LFViews/LFUpdatecshtml.cshtml", model);
             }
         }
     }
