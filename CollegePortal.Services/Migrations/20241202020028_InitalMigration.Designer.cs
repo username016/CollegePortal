@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CollegePortal.Services.Migrations
 {
     [DbContext(typeof(DbContextStudent))]
-    [Migration("20241202014230_InitalMigration")]
+    [Migration("20241202020028_InitalMigration")]
     partial class InitalMigration
     {
         /// <inheritdoc />
@@ -53,18 +53,18 @@ namespace CollegePortal.Services.Migrations
                         new
                         {
                             bookingId = 1,
-                            endTime = new DateTime(2024, 12, 3, 3, 42, 29, 445, DateTimeKind.Local).AddTicks(2569),
+                            endTime = new DateTime(2024, 12, 3, 4, 0, 27, 43, DateTimeKind.Local).AddTicks(9448),
                             gymRoomId = 1,
-                            startTime = new DateTime(2024, 12, 3, 2, 42, 29, 437, DateTimeKind.Local).AddTicks(7160),
+                            startTime = new DateTime(2024, 12, 3, 3, 0, 27, 36, DateTimeKind.Local).AddTicks(3731),
                             studentId = 1,
                             studentName = "John Doe"
                         },
                         new
                         {
                             bookingId = 2,
-                            endTime = new DateTime(2024, 12, 4, 8, 42, 29, 445, DateTimeKind.Local).AddTicks(3126),
+                            endTime = new DateTime(2024, 12, 4, 9, 0, 27, 44, DateTimeKind.Local).AddTicks(8),
                             gymRoomId = 2,
-                            startTime = new DateTime(2024, 12, 4, 7, 42, 29, 445, DateTimeKind.Local).AddTicks(3112),
+                            startTime = new DateTime(2024, 12, 4, 8, 0, 27, 43, DateTimeKind.Local).AddTicks(9995),
                             studentId = 2,
                             studentName = "Jane Smith"
                         });
@@ -102,7 +102,7 @@ namespace CollegePortal.Services.Migrations
                         new
                         {
                             postId = 1,
-                            foundDate = new DateTime(2024, 11, 28, 17, 42, 29, 445, DateTimeKind.Local).AddTicks(8845),
+                            foundDate = new DateTime(2024, 11, 28, 18, 0, 27, 45, DateTimeKind.Local).AddTicks(5900),
                             itemDescription = "Blue Backpack",
                             location = "Library",
                             studentId = 1
@@ -110,7 +110,7 @@ namespace CollegePortal.Services.Migrations
                         new
                         {
                             postId = 2,
-                            foundDate = new DateTime(2024, 11, 30, 17, 42, 29, 445, DateTimeKind.Local).AddTicks(9753),
+                            foundDate = new DateTime(2024, 11, 30, 18, 0, 27, 45, DateTimeKind.Local).AddTicks(6850),
                             itemDescription = "Laptop Charger",
                             location = "Student Center",
                             studentId = 2
@@ -188,18 +188,18 @@ namespace CollegePortal.Services.Migrations
                         new
                         {
                             bookingId = 1,
-                            dateTime = new DateTime(2024, 12, 1, 17, 42, 29, 445, DateTimeKind.Local).AddTicks(5328),
-                            endTime = new DateTime(2024, 12, 3, 5, 42, 29, 445, DateTimeKind.Local).AddTicks(6166),
-                            startTime = new DateTime(2024, 12, 3, 3, 42, 29, 445, DateTimeKind.Local).AddTicks(5764),
+                            dateTime = new DateTime(2024, 12, 1, 18, 0, 27, 44, DateTimeKind.Local).AddTicks(8646),
+                            endTime = new DateTime(2024, 12, 3, 6, 0, 27, 45, DateTimeKind.Local).AddTicks(1103),
+                            startTime = new DateTime(2024, 12, 3, 4, 0, 27, 45, DateTimeKind.Local).AddTicks(509),
                             studentId = 1,
                             studyRoomId = 1
                         },
                         new
                         {
                             bookingId = 2,
-                            dateTime = new DateTime(2024, 12, 1, 17, 42, 29, 445, DateTimeKind.Local).AddTicks(6568),
-                            endTime = new DateTime(2024, 12, 4, 8, 42, 29, 445, DateTimeKind.Local).AddTicks(6582),
-                            startTime = new DateTime(2024, 12, 4, 6, 42, 29, 445, DateTimeKind.Local).AddTicks(6579),
+                            dateTime = new DateTime(2024, 12, 1, 18, 0, 27, 45, DateTimeKind.Local).AddTicks(1579),
+                            endTime = new DateTime(2024, 12, 4, 9, 0, 27, 45, DateTimeKind.Local).AddTicks(1595),
+                            startTime = new DateTime(2024, 12, 4, 7, 0, 27, 45, DateTimeKind.Local).AddTicks(1591),
                             studentId = 2,
                             studyRoomId = 2
                         });
@@ -236,18 +236,18 @@ namespace CollegePortal.Services.Migrations
                         new
                         {
                             bookingId = 1,
-                            dateTime = new DateTime(2024, 12, 1, 17, 42, 29, 446, DateTimeKind.Local).AddTicks(1657),
-                            endTime = new DateTime(2024, 12, 5, 4, 42, 29, 446, DateTimeKind.Local).AddTicks(2472),
-                            startTime = new DateTime(2024, 12, 5, 3, 42, 29, 446, DateTimeKind.Local).AddTicks(2073),
+                            dateTime = new DateTime(2024, 12, 1, 18, 0, 27, 45, DateTimeKind.Local).AddTicks(8983),
+                            endTime = new DateTime(2024, 12, 5, 5, 0, 27, 45, DateTimeKind.Local).AddTicks(9836),
+                            startTime = new DateTime(2024, 12, 5, 4, 0, 27, 45, DateTimeKind.Local).AddTicks(9437),
                             studentId = 1,
                             tutorId = 101
                         },
                         new
                         {
                             bookingId = 2,
-                            dateTime = new DateTime(2024, 12, 1, 17, 42, 29, 446, DateTimeKind.Local).AddTicks(2987),
-                            endTime = new DateTime(2024, 12, 6, 8, 42, 29, 446, DateTimeKind.Local).AddTicks(3000),
-                            startTime = new DateTime(2024, 12, 6, 7, 42, 29, 446, DateTimeKind.Local).AddTicks(2997),
+                            dateTime = new DateTime(2024, 12, 1, 18, 0, 27, 46, DateTimeKind.Local).AddTicks(226),
+                            endTime = new DateTime(2024, 12, 6, 9, 0, 27, 46, DateTimeKind.Local).AddTicks(239),
+                            startTime = new DateTime(2024, 12, 6, 8, 0, 27, 46, DateTimeKind.Local).AddTicks(237),
                             studentId = 2,
                             tutorId = 102
                         });

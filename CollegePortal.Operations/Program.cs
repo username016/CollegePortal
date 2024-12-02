@@ -9,7 +9,7 @@ builder.Services.AddControllersWithViews();
 
 //Db Context Connection string and build
 builder.Services.AddDbContext<DbContextStudent>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("SQLiteConn"))
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
 // Register repositories

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CollegePortal.Services.Migrations
 {
     /// <inheritdoc />
-    public partial class FinalCreate : Migration
+    public partial class InitalMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -133,8 +133,8 @@ namespace CollegePortal.Services.Migrations
                 columns: new[] { "bookingId", "endTime", "gymRoomId", "startTime", "studentId", "studentName" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 12, 3, 6, 13, 34, 93, DateTimeKind.Local).AddTicks(9818), 1, new DateTime(2024, 12, 3, 5, 13, 34, 92, DateTimeKind.Local).AddTicks(1507), 1, "John Doe" },
-                    { 2, new DateTime(2024, 12, 4, 11, 13, 34, 94, DateTimeKind.Local).AddTicks(540), 2, new DateTime(2024, 12, 4, 10, 13, 34, 94, DateTimeKind.Local).AddTicks(530), 2, "Jane Smith" }
+                    { 1, new DateTime(2024, 12, 3, 4, 0, 27, 43, DateTimeKind.Local).AddTicks(9448), 1, new DateTime(2024, 12, 3, 3, 0, 27, 36, DateTimeKind.Local).AddTicks(3731), 1, "John Doe" },
+                    { 2, new DateTime(2024, 12, 4, 9, 0, 27, 44, DateTimeKind.Local).AddTicks(8), 2, new DateTime(2024, 12, 4, 8, 0, 27, 43, DateTimeKind.Local).AddTicks(9995), 2, "Jane Smith" }
                 });
 
             migrationBuilder.InsertData(
@@ -142,8 +142,8 @@ namespace CollegePortal.Services.Migrations
                 columns: new[] { "postId", "foundDate", "itemDescription", "location", "studentId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 11, 28, 20, 13, 34, 94, DateTimeKind.Local).AddTicks(3415), "Blue Backpack", "Library", 1 },
-                    { 2, new DateTime(2024, 11, 30, 20, 13, 34, 94, DateTimeKind.Local).AddTicks(3857), "Laptop Charger", "Student Center", 2 }
+                    { 1, new DateTime(2024, 11, 28, 18, 0, 27, 45, DateTimeKind.Local).AddTicks(5900), "Blue Backpack", "Library", 1 },
+                    { 2, new DateTime(2024, 11, 30, 18, 0, 27, 45, DateTimeKind.Local).AddTicks(6850), "Laptop Charger", "Student Center", 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -151,8 +151,8 @@ namespace CollegePortal.Services.Migrations
                 columns: new[] { "bookingId", "dateTime", "endTime", "startTime", "studentId", "studyRoomId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 12, 1, 20, 13, 34, 94, DateTimeKind.Local).AddTicks(1702), new DateTime(2024, 12, 3, 8, 13, 34, 94, DateTimeKind.Local).AddTicks(2158), new DateTime(2024, 12, 3, 6, 13, 34, 94, DateTimeKind.Local).AddTicks(1936), 1, 1 },
-                    { 2, new DateTime(2024, 12, 1, 20, 13, 34, 94, DateTimeKind.Local).AddTicks(2377), new DateTime(2024, 12, 4, 11, 13, 34, 94, DateTimeKind.Local).AddTicks(2385), new DateTime(2024, 12, 4, 9, 13, 34, 94, DateTimeKind.Local).AddTicks(2384), 2, 2 }
+                    { 1, new DateTime(2024, 12, 1, 18, 0, 27, 44, DateTimeKind.Local).AddTicks(8646), new DateTime(2024, 12, 3, 6, 0, 27, 45, DateTimeKind.Local).AddTicks(1103), new DateTime(2024, 12, 3, 4, 0, 27, 45, DateTimeKind.Local).AddTicks(509), 1, 1 },
+                    { 2, new DateTime(2024, 12, 1, 18, 0, 27, 45, DateTimeKind.Local).AddTicks(1579), new DateTime(2024, 12, 4, 9, 0, 27, 45, DateTimeKind.Local).AddTicks(1595), new DateTime(2024, 12, 4, 7, 0, 27, 45, DateTimeKind.Local).AddTicks(1591), 2, 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -160,8 +160,8 @@ namespace CollegePortal.Services.Migrations
                 columns: new[] { "bookingId", "dateTime", "endTime", "startTime", "studentId", "tutorId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 12, 1, 20, 13, 34, 94, DateTimeKind.Local).AddTicks(4889), new DateTime(2024, 12, 5, 7, 13, 34, 94, DateTimeKind.Local).AddTicks(5329), new DateTime(2024, 12, 5, 6, 13, 34, 94, DateTimeKind.Local).AddTicks(5112), 1, 101 },
-                    { 2, new DateTime(2024, 12, 1, 20, 13, 34, 94, DateTimeKind.Local).AddTicks(5546), new DateTime(2024, 12, 6, 11, 13, 34, 94, DateTimeKind.Local).AddTicks(5554), new DateTime(2024, 12, 6, 10, 13, 34, 94, DateTimeKind.Local).AddTicks(5552), 2, 102 }
+                    { 1, new DateTime(2024, 12, 1, 18, 0, 27, 45, DateTimeKind.Local).AddTicks(8983), new DateTime(2024, 12, 5, 5, 0, 27, 45, DateTimeKind.Local).AddTicks(9836), new DateTime(2024, 12, 5, 4, 0, 27, 45, DateTimeKind.Local).AddTicks(9437), 1, 101 },
+                    { 2, new DateTime(2024, 12, 1, 18, 0, 27, 46, DateTimeKind.Local).AddTicks(226), new DateTime(2024, 12, 6, 9, 0, 27, 46, DateTimeKind.Local).AddTicks(239), new DateTime(2024, 12, 6, 8, 0, 27, 46, DateTimeKind.Local).AddTicks(237), 2, 102 }
                 });
 
             migrationBuilder.CreateIndex(
