@@ -1,34 +1,27 @@
-﻿@model IEnumerable<CollegePortal.Entities.Models.TutorBookings>
+﻿@model CollegePortal.Entities.Models.TutorBookings
 
-<h1>Tutor Bookings</h1>
+<h1>Add Tutor Booking</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Booking ID</th>
-            <th>Student ID</th>
-            <th>Tutor ID</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var booking in Model)
-        {
-            <tr>
-                <td>@booking.bookingId</td>
-                <td>@booking.studentId</td>
-                <td>@booking.tutorId</td>
-                <td>@booking.startTime</td>
-                <td>@booking.endTime</td>
-                <td>
-                    <a asp-controller="Tutor" asp-action="Edit" asp-route-id="@booking.bookingId" class="btn btn-warning">Edit</a>
-                    <a asp-controller="Tutor" asp-action="Delete" asp-route-id="@booking.bookingId" class="btn btn-danger">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<a asp-controller="Tutor" asp-action="Create" class="btn btn-primary">Book a Tutor Session</a>
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label for="studentId">Student ID</label>
+        <input asp-for="studentId" class="form-control" />
+        <span asp-validation-for="studentId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="tutorId">Tutor ID</label>
+        <input asp-for="tutorId" class="form-control" />
+        <span asp-validation-for="tutorId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="startTime">Start Time</label>
+        <input asp-for="startTime" class="form-control" type="datetime-local" />
+        <span asp-validation-for="startTime" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="endTime">End Time</label>
+        <input asp-for="endTime" class="form-control" type="datetime-local" />
+        <span asp-validation-for="endTime" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Booking</button>
+</form>

@@ -1,15 +1,18 @@
 ﻿@model CollegePortal.Entities.Models.TutorBookings
 
-<h1>Update Tutor Booking</h1>
+<h1>Edit Tutor Booking</h1>
 
-<form asp-controller="Tutor" asp-action="Edit" method="post">
+<form asp-action="Edit" method="post">
+    <input asp-for="bookingId" type="hidden" />
     <div class="form-group">
-        <label for="StartTime">Start Time</label>
+        <label for="startTime">Start Time</label>
         <input asp-for="startTime" class="form-control" type="datetime-local" />
+        <span asp-validation-for="startTime" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label for="EndTime">End Time</label>
+        <label for="endTime">End Time</label>
         <input asp-for="endTime" class="form-control" type="datetime-local" />
+        <span asp-validation-for="endTime" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-success">Update</button>
+    <button type="submit" class="btn btn-success">Update Booking</button>
 </form>

@@ -3,11 +3,9 @@ using CollegePortal.Services.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
-namespace CollegePortal.Api.Controllers
+namespace CollegePortal.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class TutorController : ControllerBase
+    public class TutorController : Controller
     {
         private readonly ITutorRepository _tutorRepository;
 
@@ -16,98 +14,114 @@ namespace CollegePortal.Api.Controllers
             _tutorRepository = tutorRepository;
         }
 
-      
-        /* 
-          // Get all tutor bookings
-        [HttpGet("GetAllTutorBookings")]
-        public IActionResult GetAllTutorBookings(int studentId, DateTime startTime, DateTime endTime)
+        // GET: Show all tutor bookings
+        public IActionResult ShowTutor()
         {
             try
             {
-                var bookings = _tutorRepository.GetAllTutorBookings(studentId, startTime, endTime);
-                return Ok(bookings);
+                var bookings = _tutorRepository.GetTutorBookings(0, DateTime.MinValue, DateTime.MaxValue);
+                return View("~/Views/Pages/TutorViews/ShowTutor.cshtml", bookings);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                TempData["ErrorMessage"] = $"Error fetching tutor bookings: {ex.Message}";
+                return RedirectToAction("Error", "Home");
             }
         }
-        */
 
-        // Get bookings for a specific tutor
-        [HttpGet("GetTutorBookings/{tutorId}")]
-        public IActionResult GetTutorBookings(int tutorId, DateTime startTime, DateTime endTime)
+        // GET: Create a new tutor booking
+        public IActionResult TutorBooking()
+        {
+            return View("~/Views/Pages/TutorViews/TutorBooking.cshtml");
+        }
+
+        // POST: Create a new tutor booking
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult TutorBooking(int studentId, int tutorId, DateTime startTime, DateTime endTime)
         {
             try
             {
-                var bookings = _tutorRepository.GetTutorBookings(tutorId, startTime, endTime);
-                return Ok(bookings);
+                if (!ModelState.IsValid)
+                {
+                    ModelState.AddModelError("", "Please correct the form inputs.");
+                    return View("~/Views/Pages/TutorViews/TutorBooking.cshtml");
+                }
+
+                _tutorRepository.BookTutorSession(studentId, tutorId, startTime, endTime);
+                TempData["SuccessMessage"] = "Tutor session booked successfully.";
+                return RedirectToAction(nameof(ShowTutor));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                ModelState.AddModelError("", $"Error creating tutor booking: {ex.Message}");
+                return View("~/Views/Pages/TutorViews/TutorBooking.cshtml");
             }
         }
 
-        // Book a session with a tutor
-        [HttpPost("BookTutorSession")]
-        public IActionResult BookTutorSession([FromBody] TutorBookingRequest request)
+        // ...
+
+        // GET: Update a tutor booking
+        public IActionResult TutorUpdate(int id)
         {
             try
             {
-                var booking = _tutorRepository.BookTutorSession(request.StudentId, request.TutorId, request.StartTime, request.EndTime);
-                return CreatedAtAction(nameof(GetTutorBookings), new { tutorId = request.TutorId }, booking);
+                var booking = _tutorRepository.GetTutorBookings(0, DateTime.MinValue, DateTime.MaxValue).FirstOrDefault(b => b.bookingId == id);
+                if (booking == null)
+                {
+                    TempData["ErrorMessage"] = "Tutor booking not found.";
+                    return RedirectToAction(nameof(ShowTutor));
+                }
+
+                return View("~/Views/Pages/TutorViews/TutorUpdate.cshtml", booking);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                TempData["ErrorMessage"] = $"Error fetching tutor booking: {ex.Message}";
+                return RedirectToAction(nameof(ShowTutor));
             }
         }
 
-        // Update an existing booking
-        [HttpPut("UpdateTutorBooking/{bookingId}")]
-        public IActionResult UpdateTutorBooking(int bookingId, [FromBody] TutorBookingUpdateRequest request)
+        // POST: Update a tutor booking
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult TutorUpdate(int id, DateTime startTime, DateTime endTime)
         {
             try
             {
-                var updatedBooking = _tutorRepository.UpdateTutorBooking(bookingId, request.StartTime, request.EndTime);
-                return Ok(updatedBooking);
+                if (!ModelState.IsValid)
+                {
+                    ModelState.AddModelError("", "Please correct the form inputs.");
+                    return View("~/Views/Pages/TutorViews/TutorUpdate.cshtml");
+                }
+
+                _tutorRepository.UpdateTutorBooking(id, startTime, endTime);
+                TempData["SuccessMessage"] = "Tutor booking updated successfully.";
+                return RedirectToAction(nameof(ShowTutor));
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                ModelState.AddModelError("", $"Error updating tutor booking: {ex.Message}");
+                return RedirectToAction(nameof(TutorUpdate), new { id });
             }
         }
 
-        // Delete a booking
-        [HttpDelete("DeleteTutorBooking/{bookingId}")]
-        public IActionResult DeleteTutorBooking(int bookingId)
+        // POST: Delete a tutor booking
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
         {
             try
             {
-                _tutorRepository.DeleteTutorBooking(bookingId);
-                return NoContent();
+                _tutorRepository.DeleteTutorBooking(id);
+                TempData["SuccessMessage"] = "Tutor booking deleted successfully.";
+                return RedirectToAction(nameof(ShowTutor));
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                TempData["ErrorMessage"] = $"Error deleting tutor booking: {ex.Message}";
+                return RedirectToAction(nameof(ShowTutor));
             }
         }
-    }
-
-    // Request DTO for booking a session
-    public class TutorBookingRequest
-    {
-        public int StudentId { get; set; }
-        public int TutorId { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
-    }
-
-    // Request DTO for updating a booking
-    public class TutorBookingUpdateRequest
-    {
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
     }
 }
