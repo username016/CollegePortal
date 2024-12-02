@@ -1,5 +1,4 @@
-﻿using CollegePortal.Entities.Models;
-using CollegePortal.Services.DataAccessLayer;
+﻿using CollegePortal.Services.DataAccessLayer;
 using CollegePortal.Services.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +19,7 @@ namespace CollegePortal.Controllers
             _context = context;
         }
 
-        // List ALL Gym Room Bookings (GymRoomList.cshtml)
+        // List ALL Gym Room Bookings (ShowAllGymBookings.cshtml)
         [HttpGet]
         [Route("")]
         [Route("List")]
@@ -31,7 +30,9 @@ namespace CollegePortal.Controllers
                 .Include(b => b.Student)
                 .OrderBy(b => b.startTime)
                 .ToList();
-            return View("GymRoomList", bookings);
+
+            // Use the full relative path to the view
+            return View("~/Views/Pages/GymViews/ShowAllGymBookings.cshtml", bookings);
         }
 
         // Book Gym Room (GymRoomBooking.cshtml)
@@ -39,9 +40,7 @@ namespace CollegePortal.Controllers
         [Route("Book")]
         public IActionResult BookGymRoom()
         {
-            // Remove the non-existent method call
-            // Instead, you might want to pass necessary data for booking
-            return View("GymRoomBooking");
+            return View("~/Views/Pages/GymViews/GymRoomBooking.cshtml");
         }
 
         [HttpPost]
@@ -55,7 +54,7 @@ namespace CollegePortal.Controllers
                 if (_gymRepository.IsBookingConflict(gymRoomId, startTime, endTime))
                 {
                     ModelState.AddModelError("", "Gym room is already booked for selected time.");
-                    return View("GymRoomBooking");
+                    return View("~/Views/Pages/GymViews/GymRoomBooking.cshtml");
                 }
 
                 // Book the room
@@ -66,11 +65,11 @@ namespace CollegePortal.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
-                return View("GymRoomBooking");
+                return View("~/Views/Pages/GymViews/GymRoomBooking.cshtml");
             }
         }
 
-        // Update Booking
+        // Update Booking (GymRoomUpdate.cshtml)
         [HttpGet]
         [Route("Update/{bookingId:int}")]
         public IActionResult UpdateBooking(int bookingId)
@@ -83,7 +82,7 @@ namespace CollegePortal.Controllers
                 return NotFound();
             }
 
-            return View("GymRoomUpdate", booking);
+            return View("~/Views/Pages/GymViews/GymRoomUpdate.cshtml", booking);
         }
 
         [HttpPost]
@@ -99,7 +98,7 @@ namespace CollegePortal.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
-                return View("GymRoomUpdate");
+                return View("~/Views/Pages/GymViews/GymRoomUpdate.cshtml");
             }
         }
 
@@ -122,7 +121,3 @@ namespace CollegePortal.Controllers
         }
     }
 }
-
-
-
-
