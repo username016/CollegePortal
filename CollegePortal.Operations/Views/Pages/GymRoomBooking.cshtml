@@ -17,14 +17,14 @@
         @foreach (var booking in Model)
         {
             <tr>
-                <td>@booking.BookingId</td>
-                <td>@booking.StudentId</td>
-                <td>@booking.GymRoomId</td>
-                <td>@booking.StartTime</td>
-                <td>@booking.EndTime</td>
+                <td>@booking.bookingId</td>
+                <td>@booking.studentId</td>
+                <td>@booking.gymRoomId</td>
+                <td>@booking.startTime</td>
+                <td>@booking.endTime</td>
                 <td>
-                    <a asp-controller="GymRoom" asp-action="Edit" asp-route-id="@booking.BookingId" class="btn btn-warning">Edit</a>
-                    <a asp-controller="GymRoom" asp-action="Delete" asp-route-id="@booking.BookingId" class="btn btn-danger">Delete</a>
+                    <a asp-controller="GymRoom" asp-action="Edit" asp-route-id="@booking.bookingId" class="btn btn-warning">Edit</a>
+                    <a asp-controller="GymRoom" asp-action="Delete" asp-route-id="@booking.bookingId" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         }

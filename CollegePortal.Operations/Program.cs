@@ -1,9 +1,24 @@
+using CollegePortal.Services.DataAccessLayer;
 using CollegePortal.Services.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//Db Context Connection string and build
+builder.Services.AddDbContext<DbContextStudent>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("SQLiteConn"))
+);
+
+// Register repositories
+builder.Services.AddScoped<IGymRepository, GymRepository>();
+builder.Services.AddScoped<ILFRepository, LFRepository>();
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<IStudyRoomRepository, StudyRoomRepository>();
+builder.Services.AddScoped<ITutorRepository, TutorRepository>();
+
 
 
 var app = builder.Build();

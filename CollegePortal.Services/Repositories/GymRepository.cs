@@ -24,15 +24,15 @@ namespace CollegePortal.Services.Repositories
             // Query to get rooms that are not booked during the time range
             var availableRooms = _context.GymRoomBookings
                 .Where(r => !_context.GymRoomBookings
-                    .Any(b => b.GymRoomId == r.GymRoomId &&
-                              ((startTime >= b.StartTime && startTime < b.EndTime) ||
-                               (endTime > b.StartTime && endTime <= b.EndTime) ||
-                               (startTime <= b.StartTime && endTime >= b.EndTime))))
+                    .Any(b => b.gymRoomId == r.gymRoomId &&
+                              ((startTime >= b.startTime && startTime < b.endTime) ||
+                               (endTime > b.startTime && endTime <= b.endTime) ||
+                               (startTime <= b.startTime && endTime >= b.endTime))))
                 .Select(r => new GymRoomBookings
                 {
-                    GymRoomId = r.GymRoomId,
-                    StartTime = startTime,
-                    EndTime = endTime
+                    gymRoomId = r.gymRoomId,
+                    startTime = startTime,
+                    endTime = endTime
                 })
                 .ToList();
 
@@ -42,16 +42,16 @@ namespace CollegePortal.Services.Repositories
         public IEnumerable<GymRoomBookings> GetGymRoomBookings(int gymRoomId)
         {
             var bookings = _context.GymRoomBookings
-                .Where(b => b.GymRoomId == gymRoomId)
+                .Where(b => b.gymRoomId == gymRoomId)
                 .Join(_context.Students,
-                    booking => booking.StudentId,
-                    student => student.StudentId,
+                    booking => booking.studentId,
+                    student => student.studentId,
                     (booking, student) => new GymRoomBookings
                     { 
-                        StudentName = student.Name,
-                        GymRoomId = booking.GymRoomId,
-                        StartTime = booking.StartTime,
-                        EndTime = booking.EndTime
+                        studentName = student.name,
+                        gymRoomId = booking.gymRoomId,
+                        startTime = booking.startTime,
+                        endTime = booking.endTime
                     })
                 .ToList();
 
@@ -61,10 +61,10 @@ namespace CollegePortal.Services.Repositories
         public bool IsBookingConflict(int gymId, DateTime sTime, DateTime eTime)
         {
             return _context.GymRoomBookings.Any(b =>
-                b.GymRoomId == gymId &&
-                ((sTime >= b.StartTime && sTime < b.EndTime) ||
-                 (eTime > b.StartTime && eTime <= b.EndTime) ||
-                 (sTime <= b.StartTime && eTime >= b.EndTime)));
+                b.gymRoomId == gymId &&
+                ((sTime >= b.startTime && sTime < b.endTime) ||
+                 (eTime > b.startTime && eTime <= b.endTime) ||
+                 (sTime <= b.startTime && eTime >= b.endTime)));
         }
 
         // Book a gym room
@@ -75,10 +75,10 @@ namespace CollegePortal.Services.Repositories
 
             var booking = new GymRoomBookings
             {
-                StudentId = studentId,
-                GymRoomId = gymId,
-                StartTime = sTime,
-                EndTime = eTime
+                studentId = studentId,
+                gymRoomId = gymId,
+                startTime = sTime,
+                endTime = eTime
             };
 
             _context.GymRoomBookings.Add(booking);
@@ -94,11 +94,11 @@ namespace CollegePortal.Services.Repositories
             if (booking == null)
                 throw new KeyNotFoundException("Booking not found.");
 
-            if (IsBookingConflict(booking.GymRoomId, sTime, eTime))
+            if (IsBookingConflict(booking.gymRoomId, sTime, eTime))
                 throw new InvalidOperationException("The updated booking conflicts with an existing booking.");
 
-            booking.StartTime = sTime;
-            booking.EndTime = eTime;
+            booking.startTime = sTime;
+            booking.endTime = eTime;
 
             _context.SaveChanges();
             return booking;
