@@ -122,7 +122,7 @@ namespace CollegePortal.Controllers
         }
     }
 }
-}
+
 
 
 

@@ -1,13 +1,10 @@
-﻿using CollegePortal.Entities.Models;
-using CollegePortal.Services.Repositories;
+﻿using CollegePortal.Services.Repositories;
+using CollegePortal.Entities.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
-namespace CollegePortal.Api.Controllers
+namespace CollegePortal.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class StudentController : ControllerBase
+    public class StudentController : Controller
     {
         private readonly IStudentRepository _studentRepository;
 
@@ -16,46 +13,28 @@ namespace CollegePortal.Api.Controllers
             _studentRepository = studentRepository;
         }
 
-      /*  // Add a new student
-        [HttpPost("AddStudent")]
-        public IActionResult AddStudent([FromBody] Student student)
+        // GET: Login Page
+        public IActionResult Login()
         {
-            try
+            return View();
+        }
+
+        // POST: Login Action
+        [HttpPost]
+        public IActionResult Login(string name, string password)
+        {
+            var student = _studentRepository.AuthenticateStudent(name, password);
+            if (student != null)
             {
-                var newStudent = _studentRepository.AddStudent(student);
-                return CreatedAtAction(nameof(GetStudentById), new { studentId = newStudent.StudentId }, newStudent);
+                // Redirect to a dashboard or another view upon successful login
+                return RedirectToAction("Dashboard", "Home");
             }
-            catch (Exception ex)
+            else
             {
-                return BadRequest(ex.Message);
+                // Add error message for failed login
+                ViewBag.ErrorMessage = "Invalid username or password.";
+                return View();
             }
         }
-      */
-
-
-        // Authenticate a student (login)
-        [HttpPost("AuthenticateStudent")]
-        public IActionResult AuthenticateStudent([FromBody] StudentLoginRequest request)
-        {
-            try
-            {
-                var student = _studentRepository.AuthenticateStudent(request.Name, request.Password);
-                if (student == null)
-                    return Unauthorized("Invalid username or password.");
-
-                return Ok(student);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-    }
-
-    // DTO for student login request
-    public class StudentLoginRequest
-    {
-        public required string Name { get; set; }
-        public required string Password { get; set; }
     }
 }
